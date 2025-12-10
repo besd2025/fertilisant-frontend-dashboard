@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AreaChart, CartesianGrid, Area, XAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
 
 import {
   Card,
@@ -18,91 +18,120 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export const description = "A multiple line chart";
 
 // Données pour différentes périodes
 const charDataByPeriod = {
-  jour: [
-    { time: "00:00", ceriseA: 40, ceriseB: 24 },
-    { time: "04:00", ceriseA: 30, ceriseB: 13 },
-    { time: "08:00", ceriseA: 20, ceriseB: 98 },
-    { time: "12:00", ceriseA: 27, ceriseB: 39 },
-    { time: "16:00", ceriseA: 20, ceriseB: 20 },
-    { time: "20:00", ceriseA: 30, ceriseB: 35 },
-    { time: "23:59", ceriseA: 10, ceriseB: 26 },
+  A: [
+    { type: "TOTAHAZA", TOTAHAZA: 24 },
+    { type: "IMBURA", IMBURA: 24 },
+    { type: "BAGARA", BAGARA: 24 },
+    { type: "DOLOMIE", DOLOMIE: 24 },
   ],
-  semaine: [
-    { day: "Lun", ceriseA: 186, ceriseB: 80 },
-    { day: "Mar", ceriseA: 305, ceriseB: 200 },
-    { day: "Mer", ceriseA: 237, ceriseB: 120 },
-    { day: "Jeu", ceriseA: 73, ceriseB: 190 },
-    { day: "Ven", ceriseA: 209, ceriseB: 130 },
-    { day: "Sam", ceriseA: 214, ceriseB: 140 },
-    { day: "Dim", ceriseA: 150, ceriseB: 100 },
+  B: [
+    { type: "TOTAHAZA", TOTAHAZA: 24 },
+    { type: "IMBURA", IMBURA: 24 },
+    { type: "BAGARA", BAGARA: 24 },
+    { type: "DOLOMIE", DOLOMIE: 24 },
   ],
   mois: [
-    { month: "January", ceriseA: 186, ceriseB: 80 },
-    { month: "February", ceriseA: 305, ceriseB: 200 },
-    { month: "March", ceriseA: 237, ceriseB: 120 },
-    { month: "April", ceriseA: 73, ceriseB: 190 },
-    { month: "May", ceriseA: 209, ceriseB: 130 },
-    { month: "June", ceriseA: 214, ceriseB: 140 },
+    { month: "January", TOTAHAZA: 186, IMBURA: 80, BAGARA: 15, DOLOMIE: 10 },
+    { month: "February", TOTAHAZA: 305, IMBURA: 200, BAGARA: 15, DOLOMIE: 10 },
+    { month: "March", TOTAHAZA: 237, IMBURA: 120, BAGARA: 15, DOLOMIE: 10 },
+    { month: "April", TOTAHAZA: 73, IMBURA: 190, BAGARA: 15, DOLOMIE: 10 },
+    { month: "May", TOTAHAZA: 209, IMBURA: 130, BAGARA: 15, DOLOMIE: 10 },
+    { month: "June", TOTAHAZA: 214, IMBURA: 140, BAGARA: 15, DOLOMIE: 10 },
   ],
   annee: [
-    { year: "2020", ceriseA: 1000, ceriseB: 500 },
-    { year: "2021", ceriseA: 1500, ceriseB: 800 },
-    { year: "2022", ceriseA: 1800, ceriseB: 900 },
-    { year: "2023", ceriseA: 2100, ceriseB: 1200 },
-    { year: "2024", ceriseA: 2500, ceriseB: 1400 },
+    { year: "2020", TOTAHAZA: 1000, IMBURA: 500, BAGARA: 15, DOLOMIE: 10 },
+    { year: "2021", TOTAHAZA: 1500, IMBURA: 800, BAGARA: 15, DOLOMIE: 10 },
+    { year: "2022", TOTAHAZA: 1800, IMBURA: 900, BAGARA: 15, DOLOMIE: 10 },
+    { year: "2023", TOTAHAZA: 2100, IMBURA: 1200, BAGARA: 15, DOLOMIE: 10 },
+    { year: "2024", TOTAHAZA: 2500, IMBURA: 1400, BAGARA: 15, DOLOMIE: 10 },
   ],
 };
 
 const chartConfig = {
-  ceriseA: {
-    label: "Cerise A",
+  TOTAHAZA: {
+    label: "TOTAHAZA",
     color: "var(--chart-5)",
   },
-  ceriseB: {
-    label: "Cerise B",
-    color: "var(--secondary)",
+  IMBURA: {
+    label: "IMBURA",
+    color: "var(--chart-1)",
+  },
+  BAGARA: {
+    label: "BAGARA",
+    color: "var(--chart-2)",
+  },
+  DOLOMIE: {
+    label: "DOLOMIE",
+    color: "var(--chart-3)",
   },
 };
-
 export function ChartLineAchats() {
   const [period, setPeriod] = useState("mois");
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Achats du cafe</CardTitle>
+        <CardTitle>Commandes</CardTitle>
         <CardDescription>Filtrer par période</CardDescription>
-
-        <Tabs
-          defaultValue="mois"
-          value={period}
-          onValueChange={setPeriod}
-          className="w-full mt-4"
-        >
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="jour">Jour</TabsTrigger>
-            <TabsTrigger value="semaine">Semaine</TabsTrigger>
-            <TabsTrigger value="mois">Mois</TabsTrigger>
-            <TabsTrigger value="annee">Année</TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <div className="flex flex-row items-center gap-2">
+          <Tabs
+            defaultValue="mois"
+            value={period}
+            onValueChange={setPeriod}
+            className="w-full mt-4"
+          >
+            <TabsList className="grid w-max grid-cols-2">
+              <TabsTrigger value="mois">Mois</TabsTrigger>
+              <TabsTrigger value="annee">Année</TabsTrigger>
+              <TabsTrigger value="A" className="hidden">
+                A
+              </TabsTrigger>
+              <TabsTrigger value="B" className="hidden">
+                B
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+          <Select
+            value={["A", "B"].includes(period) ? period : ""}
+            onValueChange={setPeriod}
+          >
+            <SelectTrigger className="">
+              <SelectValue placeholder="Saison" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Saison</SelectLabel>
+                <SelectItem value="A">A</SelectItem>
+                <SelectItem value="B">B</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
       </CardHeader>
       <CardContent>
         <ChartContainer
           config={chartConfig}
           className="aspect-auto h-[300px] w-full"
         >
-          <AreaChart
+          <BarChart
             accessibilityLayer
             data={charDataByPeriod[period]}
             margin={{
-              left: 12,
-              right: 12,
+              top: 20,
             }}
           >
             <CartesianGrid vertical={false} />
@@ -114,16 +143,20 @@ export function ChartLineAchats() {
                   ? "day"
                   : period === "mois"
                   ? "month"
-                  : "year"
+                  : period === "annee"
+                  ? "year"
+                  : "type"
               }
               tickLine={false}
+              tickMargin={10}
               axisLine={false}
-              tickMargin={8}
               tickFormatter={(value) => {
                 if (
                   period === "jour" ||
                   period === "semaine" ||
-                  period === "annee"
+                  period === "annee" ||
+                  period === "A" ||
+                  period === "B"
                 ) {
                   return value;
                 }
@@ -131,49 +164,39 @@ export function ChartLineAchats() {
               }}
             />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-            <defs>
-              <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-ceriseA)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-ceriseA)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
-              <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-ceriseB)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-ceriseB)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
-            </defs>
-            <Area
-              dataKey="ceriseB"
-              type="natural"
-              fill="url(#fillMobile)"
-              fillOpacity={0.4}
-              stroke="var(--color-ceriseB)"
-              stackId="a"
-            />
-            <Area
-              dataKey="ceriseA"
-              type="natural"
-              fill="url(#fillDesktop)"
-              fillOpacity={0.4}
-              stroke="var(--color-ceriseA)"
-              stackId="a"
-            />
-          </AreaChart>
+            <Bar dataKey="IMBURA" fill="var(--color-IMBURA)" radius={8}>
+              <LabelList
+                position="top"
+                offset={12}
+                className="fill-foreground"
+                fontSize={12}
+              />
+            </Bar>
+            <Bar dataKey="TOTAHAZA" fill="var(--color-TOTAHAZA)" radius={8}>
+              <LabelList
+                position="top"
+                offset={12}
+                className="fill-foreground"
+                fontSize={12}
+              />
+            </Bar>
+            <Bar dataKey="BAGARA" fill="var(--color-BAGARA)" radius={8}>
+              <LabelList
+                position="top"
+                offset={12}
+                className="fill-foreground"
+                fontSize={12}
+              />
+            </Bar>
+            <Bar dataKey="DOLOMIE" fill="var(--color-DOLOMIE)" radius={8}>
+              <LabelList
+                position="top"
+                offset={12}
+                className="fill-foreground"
+                fontSize={12}
+              />
+            </Bar>
+          </BarChart>
         </ChartContainer>
       </CardContent>
     </Card>
