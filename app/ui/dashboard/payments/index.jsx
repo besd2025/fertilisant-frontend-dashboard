@@ -42,19 +42,19 @@ const recentFiles = [
 const Listes = [
   {
     name: "1ere tranche collecte 2024",
-    nbre_cafeiculteurs: "7844",
+    nbre_beneficiaires: "7844",
     intervalle: "01 Jan - 31 Mar 2024",
     date: "Apr 14, 2024",
   },
   {
     name: "1ere tranche collecte 2024",
-    nbre_cafeiculteurs: "7844",
+    nbre_beneficiaires: "7844",
     intervalle: "01 Jan - 31 Mar 2024",
     date: "Apr 14, 2024",
   },
   {
     name: "1ere tranche collecte 2024",
-    nbre_cafeiculteurs: "7844",
+    nbre_beneficiaires: "7844",
     intervalle: "01 Jan - 31 Mar 2024",
     date: "Apr 14, 2024",
   },
@@ -84,7 +84,7 @@ export default function PaymentsPage() {
                 <SheetHeader className="sr-only">
                   <SheetTitle>Statut des paiements</SheetTitle>
                   <SheetDescription>
-                    Statistiques et répartition des paiements des cafeiculteurs.
+                    Statistiques et répartition des paiements des beneficiaires.
                   </SheetDescription>
                 </SheetHeader>
                 <PaymentStats />
@@ -105,10 +105,10 @@ export default function PaymentsPage() {
             {/* All files header */}
             <div className="mb-6">
               <h1 className="mb-1 text-xl font-semibold lg:text-2xl">
-                Paiement des cafeiculteurs
+                Paiement des beneficiaires
               </h1>
               <p className="text-muted-foreground text-sm lg:text-base">
-                Generation des listes de paiement des cafeiculteurs par periode
+                Generation des listes de paiement des beneficiaires par periode
                 de collecte.
               </p>
             </div>
@@ -164,7 +164,7 @@ export default function PaymentsPage() {
                   <TableHeader>
                     <TableRow>
                       <TableHead>Nom</TableHead>
-                      <TableHead>Nbre de Cafeiculteurs</TableHead>
+                      <TableHead>Nbre de Beneficiaires</TableHead>
                       <TableHead>Intervalle</TableHead>
                       <TableHead>Date de sortie</TableHead>
                     </TableRow>
@@ -178,7 +178,7 @@ export default function PaymentsPage() {
                         <TableCell className="font-medium">
                           {list.name}
                         </TableCell>
-                        <TableCell>{list.nbre_cafeiculteurs}</TableCell>
+                        <TableCell>{list.nbre_beneficiaires}</TableCell>
                         <TableCell>{list.intervalle}</TableCell>
                         <TableCell>{list.date}</TableCell>
                         <TableCell className="sticky right-0 bg-background/50">

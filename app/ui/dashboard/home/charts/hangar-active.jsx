@@ -1,71 +1,74 @@
 "use client";
-
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { TrendingUp } from "lucide-react";
+import { LabelList, Pie, PieChart } from "recharts";
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import {
+  ChartConfig,
   ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-
+export const description = "A pie chart with a label list";
 const chartData = [
-  { entity: "Caféiculteurs", active: 1850, inactive: 380 },
-  { entity: "HANGARs", active: 1200, inactive: 300 },
-  { entity: "CTs", active: 650, inactive: 200 },
+  { type: "TOTAHAZA", visitors: 275, fill: "var(--color-TOTAHAZA)" },
+  { type: "IMBURA", visitors: 200, fill: "var(--color-IMBURA)" },
+  { type: "BAGARA", visitors: 187, fill: "var(--color-BAGARA)" },
+  { type: "DOLOMIE", visitors: 173, fill: "var(--color-DOLOMIE)" },
 ];
-
 const chartConfig = {
-  active: {
-    label: "Actif",
-    color: "var(--chart-1)",
+  visitors: {
+    label: "Quantité",
   },
-  inactive: {
-    label: "Inactif",
+  TOTAHAZA: {
+    label: "TOTAHAZA",
+    color: "var(--chart-2)",
+  },
+  IMBURA: {
+    label: "IMBURA",
+    color: "var(--chart-3)",
+  },
+  BAGARA: {
+    label: "BAGARA",
+    color: "var(--chart-4)",
+  },
+  DOLOMIE: {
+    label: "DOLOMIE",
     color: "var(--chart-5)",
   },
 };
 
 export function ChartPieHangarCtActive() {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Comparaison d'Activité</CardTitle>
-        <CardDescription>Actifs vs Inactifs par Entité</CardDescription>
+    <Card className="flex flex-col">
+      <CardHeader className="items-center pb-0">
+        <CardTitle>Comparatif des commandes</CardTitle>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-          <BarChart accessibilityLayer data={chartData}>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="entity"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value}
+      <CardContent className="flex-1 pb-0">
+        <ChartContainer
+          config={chartConfig}
+          className="[&_.recharts-text]:fill-background mx-auto aspect-square max-h-[250px]"
+        >
+          <PieChart>
+            <ChartTooltip
+              content={<ChartTooltipContent nameKey="visitors" hideLabel />}
             />
-            <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-            <ChartLegend content={<ChartLegendContent />} />
-            <Bar
-              dataKey="active"
-              stackId="a"
-              fill="var(--color-active)"
-              radius={[0, 0, 4, 4]}
-            />
-            <Bar
-              dataKey="inactive"
-              stackId="a"
-              fill="var(--color-inactive)"
-              radius={[4, 4, 0, 0]}
-            />
-          </BarChart>
+            <Pie data={chartData} dataKey="visitors">
+              <LabelList
+                dataKey="type"
+                className="text-sidebar-foreground"
+                stroke="none"
+                fontSize={12}
+                formatter={(value) => chartConfig[value]?.label}
+              />
+            </Pie>
+          </PieChart>
         </ChartContainer>
       </CardContent>
     </Card>

@@ -104,7 +104,7 @@ export default function Achats({ data }) {
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Cafeiculteur
+            Beneficiaire
             <ArrowUpDownIcon />
           </Button>
         );

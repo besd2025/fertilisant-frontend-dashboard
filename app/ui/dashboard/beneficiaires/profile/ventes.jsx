@@ -65,7 +65,7 @@ export default function Ventes() {
             <TableRow>
               <TableHead className="pl-4">ID</TableHead>
               <TableHead>Date d'achat</TableHead>
-              <TableHead>HANGAR/CT</TableHead>
+              <TableHead>HANGAR</TableHead>
               <TableHead>No Fiche</TableHead>
               <TableHead>No Recus</TableHead>
               <TableHead>CA</TableHead>

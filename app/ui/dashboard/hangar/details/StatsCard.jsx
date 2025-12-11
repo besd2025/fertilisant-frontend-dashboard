@@ -114,7 +114,7 @@ function StatsCard({ id }) {
               <Users className="text-white" />
             </div>
             <CardTitle className="text-lg text-muted-foreground font-medium tabular-nums  ">
-              Cafeiculteurs
+              Beneficiaires
             </CardTitle>
           </div>
           <CardTitle className="text-xl font-semibold tracking-tight tabular-nums">

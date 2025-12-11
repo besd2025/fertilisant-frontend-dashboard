@@ -73,7 +73,7 @@ export function RegistrationChart() {
       <CardHeader className="flex flex-col gap-y-3 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <CardTitle>Enregistrements</CardTitle>
-          <CardDescription>Nouveaux cultivateurs inscrits</CardDescription>
+          <CardDescription>Nouveaux beneficiaires inscrits</CardDescription>
         </div>
 
         <Tabs

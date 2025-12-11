@@ -34,7 +34,7 @@ const ageData = [
 ];
 
 const ageConfig = {
-  count: { label: "Caféiculteurs" },
+  count: { label: "bénéficiaires" },
   age1: { label: "-18 ans", color: "var(--chart-1)" },
   age2: { label: "18-25 ans", color: "var(--chart-2)" },
   age3: { label: "26-35 ans", color: "var(--chart-3)" },

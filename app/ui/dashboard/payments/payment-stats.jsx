@@ -13,7 +13,7 @@ export default function PaymentStats() {
     {
       browser: "chrome",
       type: " Pas encore paye",
-      cafeiculteurs: 275,
+      beneficiaires: 275,
       fill: "var(--chart-1)",
       taux: "11% ",
     },
@@ -21,21 +21,21 @@ export default function PaymentStats() {
     {
       browser: "firefox",
       type: " Paye en moyenne",
-      cafeiculteurs: 287,
+      beneficiaires: 287,
       fill: "var(--chart-3)",
       taux: "28.6% ",
     },
     {
       browser: "other",
       type: " Paye en totalite",
-      cafeiculteurs: 190,
+      beneficiaires: 190,
       fill: "var(--chart-5)",
       taux: "63.9% ",
     },
   ];
   const chartConfig = {
-    cafeiculteurs: {
-      label: "Cafeiculteurs",
+    beneficiaires: {
+      label: "Beneficiaires",
     },
     chrome: {
       label: "Pas encore paye:",
@@ -51,8 +51,8 @@ export default function PaymentStats() {
     },
   };
 
-  const totalCafeiculteurs = React.useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.cafeiculteurs, 0);
+  const totalBeneficiaires = React.useMemo(() => {
+    return chartData.reduce((acc, curr) => acc + curr.beneficiaires, 0);
   }, []);
   return (
     <>
@@ -73,7 +73,7 @@ export default function PaymentStats() {
               />
               <Pie
                 data={chartData}
-                dataKey="cafeiculteurs"
+                dataKey="beneficiaires"
                 nameKey="browser"
                 innerRadius={60}
                 strokeWidth={5}
@@ -93,14 +93,14 @@ export default function PaymentStats() {
                             y={viewBox.cy}
                             className="fill-foreground text-3xl font-bold"
                           >
-                            {totalCafeiculteurs.toLocaleString()}
+                            {totalBeneficiaires.toLocaleString()}
                           </tspan>
                           <tspan
                             x={viewBox.cx}
                             y={(viewBox.cy || 0) + 24}
                             className="fill-muted-foreground"
                           >
-                            Cafeiculteurs
+                            Beneficiaires
                           </tspan>
                         </text>
                       );
@@ -126,7 +126,7 @@ export default function PaymentStats() {
                     <span className="text-sm font-medium">{item.type}</span>
                   </div>
                   <div className="text-muted-foreground text-xs">
-                    {item.taux} | {item.cafeiculteurs} Cafeiculteurs
+                    {item.taux} | {item.beneficiaires} Beneficiaires
                   </div>
                 </div>
               </div>

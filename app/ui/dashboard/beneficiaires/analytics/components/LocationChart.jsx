@@ -41,7 +41,7 @@ const locationData = {
 
 const locationConfig = {
   count: {
-    label: "Caféiculteurs",
+    label: "bénéficiaires",
     color: "var(--chart-5)",
   },
 };

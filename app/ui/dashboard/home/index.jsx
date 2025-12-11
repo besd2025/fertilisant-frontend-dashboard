@@ -30,20 +30,20 @@ function DashboardContainer() {
             {/* <div className="col-span-5 lg:col-span-1">
               <KPIGrid />
             </div> */}
-            <div className="col-span-5 lg:col-span-4">
+            <div className="col-span-5">
               <ChartLineAchats />
             </div>
           </div>
 
           {/* New Bottom Section: Transactions & Top Performers */}
-          <div className="px-4 lg:px-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+          {/* <div className="px-4 lg:px-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
             <div className="lg:col-span-2">
               <RecentTransactions />
             </div>
             <div className="lg:col-span-1">
               <TopPerformers />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

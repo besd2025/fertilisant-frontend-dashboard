@@ -114,7 +114,7 @@ export default function EditAchats({
           <div className="custom-scrollbar h-[60vh] lg:max-h-[500px] overflow-y-auto px-2 pb-3">
             <div>
               <h5 className="mb-5 text-xl font-medium text-primary dark:text-white/90 lg:mb-6">
-                Code cultivateur
+                Code beneficiaire
               </h5>
 
               <Input

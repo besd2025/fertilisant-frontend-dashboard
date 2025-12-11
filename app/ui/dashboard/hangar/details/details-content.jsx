@@ -23,7 +23,7 @@ import {
   Spline,
   Users,
 } from "lucide-react";
-import CultivatorsListTable from "../../cultivators/list";
+import CultivatorsListTable from "../../beneficiaires/list";
 import Achats from "./achats/achats";
 import TransferHangarDep from "./tranfer/transfer-hangar";
 import ReceiptHangarCt from "./receipt/receipt-hangar";
@@ -183,7 +183,7 @@ function DetailsContent({ items }) {
         {/* TABS LIST */}
         <TabsList className="overflow-x-auto flex-nowrap gap-2 w-full">
           <TabsTrigger value="cultivators" className="shrink-0">
-            <Users className="w-4 h-4" /> Cafeiculteurs
+            <Users className="w-4 h-4" /> Beneficiaires
           </TabsTrigger>
 
           <TabsTrigger value="achats" className="shrink-0">
@@ -257,7 +257,7 @@ function DetailsContent({ items }) {
           </div>
         </TabsList>
         <TabsContent value="cultivators">
-          <h1 className="text-xl font-semibold m-2">Liste des Cafeiculteurs</h1>
+          <h1 className="text-xl font-semibold m-2">Liste des Beneficiaires</h1>
           <CultivatorsListTable
             data={cultivatorsData}
             isCultivatorsPage={false}

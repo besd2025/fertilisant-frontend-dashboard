@@ -168,7 +168,7 @@ function ProfileCard({ cult_id }) {
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Champs du cafeiculteur</DialogTitle>
+                  <DialogTitle>Champs du beneficiaire</DialogTitle>
                   <div className="mt-2 flex flex-col gap-y-2">
                     <div className="#Champ1 border rounded p-2">
                       <h1 className="flex gap-x-2 bg-primary w-max items-center py-1 px-2 rounded-lg text-primary-foreground">

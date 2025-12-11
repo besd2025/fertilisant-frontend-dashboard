@@ -108,7 +108,7 @@ export default function ListView({ data = RHData }) {
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Cafeiculteur
+            Beneficiaire
             <ArrowUpDownIcon />
           </Button>
         );

@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChartColumn, List } from "lucide-react";
-import CultivatorsListTable from "@/app/ui/dashboard/cultivators/list";
-import ProfilePage from "@/app/ui/dashboard/cultivators/profile/ProfilePage";
+import CultivatorsListTable from "@/app/ui/dashboard/beneficiaires/list";
+import ProfilePage from "@/app/ui/dashboard/beneficiaires/profile/ProfilePage";
 import { fetchData } from "@/app/_utils/api";
 import CultivatorAnalytics from "../analytics";
 
@@ -60,7 +60,9 @@ function CultivatorData() {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="list">
-          <h1 className="text-2xl font-semibold m-2">Liste des cultivateurs</h1>
+          <h1 className="text-2xl font-semibold m-2">
+            Liste des beneficiaires
+          </h1>
           <CultivatorsListTable data={data} isCultivatorsPage={true} />
         </TabsContent>
         <TabsContent value="details">

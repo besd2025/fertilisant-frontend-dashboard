@@ -83,7 +83,7 @@ export default function Edit({
           <div className="custom-scrollbar h-[60vh] lg:max-h-[500px] overflow-y-auto px-2 pb-3">
             <div>
               <h5 className="mb-5 text-xl font-medium text-primary dark:text-white/90 lg:mb-6">
-                Code cultivateur
+                Code beneficiaire
               </h5>
 
               <Input
@@ -139,7 +139,7 @@ export default function Edit({
                   />
                 </div>
                 <div className="col-span-2 lg:col-span-1 space-y-2">
-                  <Label>HANGAR/CT</Label>
+                  <Label>HANGAR</Label>
                   <Input
                     type="text"
                     value={hangar}

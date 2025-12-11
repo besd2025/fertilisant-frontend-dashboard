@@ -90,7 +90,7 @@ export default function RHlist({ data }) {
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Cafeiculteur
+            Beneficiaire
             <ArrowUpDownIcon />
           </Button>
         );

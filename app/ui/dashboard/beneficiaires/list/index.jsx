@@ -101,7 +101,7 @@ export default function CultivatorsListTable({ data, isCultivatorsPage }) {
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Cafeiculteur
+            Beneficiaire
             <ArrowUpDownIcon />
           </Button>
         );
@@ -148,7 +148,7 @@ export default function CultivatorsListTable({ data, isCultivatorsPage }) {
                     column.toggleSorting(column.getIsSorted() === "asc")
                   }
                 >
-                  HANGAR/CT
+                  HANGAR
                   <ArrowUpDownIcon />
                 </Button>
               );

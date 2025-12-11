@@ -29,7 +29,7 @@ export function SummaryCards() {
             </CardTitle>
           </div>
           <CardTitle className="text-lg font-semibold tabular-nums ml-2">
-            Total Cafeiculteurs
+            Total Beneficiaires
           </CardTitle>
           {/* <CardAction>
             <Badge variant="secondary">
