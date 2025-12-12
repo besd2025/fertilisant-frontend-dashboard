@@ -114,10 +114,11 @@ export function AppSidebar({ ...props }) {
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader className="mb-3 flex items-center">
         <Image
-          src="/images/Logo_Fertilizer.png"
+          src="/images/Logo_Fertilizer1.png"
           alt="Logo"
           width={100}
           height={100}
+          className="invert-80"
         />
       </SidebarHeader>
       <SidebarContent>

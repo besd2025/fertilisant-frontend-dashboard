@@ -234,7 +234,7 @@ function ProfileCard({ cult_id }) {
         </div>
         <div>
           <div className="flex items-center justify-between text-sm ">
-            <span className="text-muted-foreground">HANGAR / CT</span>
+            <span className="text-muted-foreground">HANGAR</span>
             <Link href="/fertilisant-dashboard/hangar/details">
               <Button variant="link" className="p-0">
                 BUHANZA

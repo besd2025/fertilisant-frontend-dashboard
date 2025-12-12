@@ -7,6 +7,7 @@ import { KPIGrid } from "./kpi-stats";
 import { RecentTransactions } from "./recent-transactions";
 import { TopPerformers } from "./top-performers";
 import Saison from "./saison";
+import { CommandeProv } from "./commande -prov";
 
 function DashboardContainer() {
   return (
@@ -36,14 +37,13 @@ function DashboardContainer() {
           </div>
 
           {/* New Bottom Section: Transactions & Top Performers */}
-          {/* <div className="px-4 lg:px-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="px-4 lg:px-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
             <div className="lg:col-span-2">
-              <RecentTransactions />
+              {/* <RecentTransactions /> */}
+              <CommandeProv />
             </div>
-            <div className="lg:col-span-1">
-              <TopPerformers />
-            </div>
-          </div> */}
+            <div className="lg:col-span-1">{/* <TopPerformers /> */}</div>
+          </div>
         </div>
       </div>
     </div>

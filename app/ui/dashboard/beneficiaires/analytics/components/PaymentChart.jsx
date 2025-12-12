@@ -20,14 +20,12 @@ import { PieChart, Pie, LabelList } from "recharts";
 const paymentData = [
   { mode: "mobile", visitors: 1200, fill: "var(--color-mobile)" },
   { mode: "bancaire", visitors: 800, fill: "var(--color-bancaire)" },
-  { mode: "sans_compte", visitors: 230, fill: "var(--color-sans_compte)" },
 ];
 
 const paymentConfig = {
   visitors: { label: "Paiements" },
   mobile: { label: "Mobile Money", color: "var(--chart-2)" },
   bancaire: { label: "Bancaire", color: "var(--chart-1)" },
-  sans_compte: { label: "Sans compte", color: "var(--chart-5)" },
 };
 
 export function PaymentChart() {

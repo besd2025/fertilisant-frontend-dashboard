@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Ventes from "./ventes";
 import EditHistory from "./edit-history";
-import { History, MapPinHouse, ShoppingCart } from "lucide-react";
+import { BookCheck, History, MapPinHouse, ShoppingCart } from "lucide-react";
 
 function ActivityList({ items }) {
   return (
@@ -12,7 +12,10 @@ function ActivityList({ items }) {
       <Tabs defaultValue="ventes" className="space-y-6 w-full">
         <TabsList className="overflow-x-auto w-full ">
           <TabsTrigger value="ventes">
-            <ShoppingCart /> Ventes effectues
+            <ShoppingCart /> Commandes effectues
+          </TabsTrigger>
+          <TabsTrigger value="livres">
+            <BookCheck /> Commandes livrées
           </TabsTrigger>
           <TabsTrigger value="maps">
             <MapPinHouse /> Map

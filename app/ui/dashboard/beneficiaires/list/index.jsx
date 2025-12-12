@@ -75,7 +75,7 @@ export default function CultivatorsListTable({ data, isCultivatorsPage }) {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <Link
-                href={`/fertilisant-dashboard/cultivators/profile/?id=${result?.id}`}
+                href={`/fertilisant-dashboard/beneficiaires/profile/?id=${result?.id}`}
               >
                 <DropdownMenuItem>Profile</DropdownMenuItem>
               </Link>
@@ -154,25 +154,6 @@ export default function CultivatorsListTable({ data, isCultivatorsPage }) {
               );
             },
             cell: ({ row }) => <div>{row.getValue("hangar_ct")}</div>,
-          },
-          {
-            accessorKey: "society",
-            header: ({ column }) => {
-              return (
-                <Button
-                  variant="ghost"
-                  onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                  }
-                >
-                  Société
-                  <ArrowUpDownIcon />
-                </Button>
-              );
-            },
-            cell: ({ row }) => (
-              <div className="font-medium">{row.getValue("society")}</div>
-            ),
           },
         ]
       : []),

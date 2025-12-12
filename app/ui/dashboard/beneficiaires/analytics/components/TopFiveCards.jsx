@@ -70,16 +70,36 @@ const topTrees = [
 ];
 
 const topQuantity = [
-  { image: "/images/logo_1.jpg", name: "Jean Dupont", value: 5000, sub: "Kg" },
-  { image: "/images/logo_2.jpg", name: "Marie Curie", value: 4200, sub: "Kg" },
-  { image: "/images/logo_3.jpg", name: "Paul Martin", value: 3800, sub: "Kg" },
+  {
+    image: "/images/logo_1.jpg",
+    name: "Jean Dupont",
+    value: 5000,
+    sub: "Sacs",
+  },
+  {
+    image: "/images/logo_2.jpg",
+    name: "Marie Curie",
+    value: 4200,
+    sub: "Sacs",
+  },
+  {
+    image: "/images/logo_3.jpg",
+    name: "Paul Martin",
+    value: 3800,
+    sub: "Sacs",
+  },
   {
     image: "/images/logo_4.jpg",
     name: "Alice Wonderland",
     value: 3500,
-    sub: "Kg",
+    sub: "Sacs",
   },
-  { image: "/images/logo_5.jpg", name: "Bob Builder", value: 3200, sub: "Kg" },
+  {
+    image: "/images/logo_5.jpg",
+    name: "Bob Builder",
+    value: 3200,
+    sub: "Sacs",
+  },
 ];
 
 function TopListCard({ title, icon, data }) {
@@ -140,7 +160,7 @@ export function TopFiveCards() {
         data={topTrees}
       />
       <TopListCard
-        title="Top 5 - Quantité Produite"
+        title="Top 5 - Quantité commandée"
         icon={<Scale className="h-4 w-4" />}
         data={topQuantity}
       />

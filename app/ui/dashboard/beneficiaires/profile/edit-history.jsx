@@ -15,23 +15,15 @@ const products = [
   {
     id: 101,
     date: "12/8/2025",
-    hangar_ct_type: "HANGAR",
-    hangar_ct_name: "Ngome",
+    hangar_name: "Ngome",
     No_fiche: 59.99,
     No_recus: 4.5,
-    ca: 452,
-    cb: 52,
-    fiche_photo: "/images/logo_1.jpg",
-  },
-  {
-    id: 102,
-    date: "12/8/2025",
-    hangar_ct_type: "HANGAR",
-    hangar_ct_name: "Ngome",
-    No_fiche: 59.99,
-    No_recus: 4.5,
-    ca: 452,
-    cb: 52,
+    commande_type: {
+      TOTAHAZA: 12,
+      IMBURA: 1,
+      BAGARA: 0,
+      DOLOMITE: 9,
+    },
     fiche_photo: "/images/logo_1.jpg",
   },
 ];
@@ -65,8 +57,7 @@ export default function EditHistory() {
               <TableHead>HANGAR</TableHead>
               <TableHead>No Fiche</TableHead>
               <TableHead>No Recus</TableHead>
-              <TableHead>CA</TableHead>
-              <TableHead>CB</TableHead>
+              <TableHead>Commande Type</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -79,8 +70,7 @@ export default function EditHistory() {
                 </TableCell>
                 <TableCell>{product.No_fiche}</TableCell>
                 <TableCell>{product.No_recus}</TableCell>
-                <TableCell>{product.ca}</TableCell>
-                <TableCell>{product.cb}</TableCell>
+                <TableCell>{product.commande_type}</TableCell>
               </TableRow>
             ))}
           </TableBody>

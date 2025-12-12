@@ -11,31 +11,23 @@ import {
 } from "@/components/ui/table";
 import ViewImageDialog from "@/components/ui/view-image-dialog";
 import PaginationControls from "@/components/ui/pagination-controls";
+import { Badge } from "@/components/ui/badge";
+import { IconTrendingUp } from "@tabler/icons-react";
+import { Handshake, Truck } from "lucide-react";
 
 const products = [
   {
     id: 101,
     date: "12/8/2025",
-    hangar_ct_type: "HANGAR",
-    hangar_ct_name: "Ngome",
-    No_fiche: 59.99,
+    hangar_name: "Ngome",
     No_recus: 4.5,
-    ca: 452,
-    cb: 52,
-    fiche_photo: "/images/logo_1.jpg",
+    TOTAHAZA: 452,
+    IMBURA: 52,
+    BAGARA: 0,
+    DOLOMITE: 9,
+    recus_photo: "/images/logo_1.jpg",
     montant: 5555555,
-  },
-  {
-    id: 102,
-    date: "12/8/2025",
-    hangar_ct_type: "HANGAR",
-    hangar_ct_name: "Ngome",
-    No_fiche: 59.99,
-    No_recus: 4.5,
-    ca: 452,
-    cb: 52,
-    fiche_photo: "/images/logo_1.jpg",
-    montant: 5555555,
+    avance: 555,
   },
 ];
 
@@ -64,14 +56,17 @@ export default function Ventes() {
           <TableHeader>
             <TableRow>
               <TableHead className="pl-4">ID</TableHead>
-              <TableHead>Date d'achat</TableHead>
+              <TableHead>Date de commande</TableHead>
               <TableHead>HANGAR</TableHead>
-              <TableHead>No Fiche</TableHead>
+
+              <TableHead>TOTAHAZA</TableHead>
+              <TableHead>IMBURA</TableHead>
+              <TableHead>BAGARA</TableHead>
+              <TableHead>DOLOMITE</TableHead>
               <TableHead>No Recus</TableHead>
-              <TableHead>CA</TableHead>
-              <TableHead>CB</TableHead>
-              <TableHead>Fiche</TableHead>
+              <TableHead>Recus</TableHead>
               <TableHead>Montant</TableHead>
+              <TableHead>Avance</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -79,20 +74,26 @@ export default function Ventes() {
               <TableRow key={product.id} className="odd:bg-muted/50">
                 <TableCell className="pl-4">{product.id}</TableCell>
                 <TableCell className="font-medium">{product.date}</TableCell>
-                <TableCell>
-                  {product.hangar_ct_type} {product.hangar_ct_name}
-                </TableCell>
-                <TableCell>{product.No_fiche}</TableCell>
+                <TableCell>{product.hangar_name}</TableCell>
                 <TableCell>{product.No_recus}</TableCell>
-                <TableCell>{product.ca}</TableCell>
-                <TableCell>{product.cb}</TableCell>
+                <TableCell>{product.TOTAHAZA}</TableCell>
+                <TableCell>{product.IMBURA}</TableCell>
+                <TableCell>{product.BAGARA}</TableCell>
+                <TableCell>{product.DOLOMITE}</TableCell>
                 <TableCell>
                   <ViewImageDialog
-                    imageUrl={product.fiche_photo}
+                    imageUrl={product.recus_photo}
                     profile={false}
                   />
                 </TableCell>
                 <TableCell>{product.montant} Fbu</TableCell>
+                <TableCell>{product.avance} Fbu</TableCell>
+                <TableCell>
+                  <Badge variant="secondary">
+                    <Truck />
+                    En cours
+                  </Badge>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
