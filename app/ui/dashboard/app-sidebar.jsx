@@ -118,7 +118,7 @@ export function AppSidebar({ ...props }) {
           alt="Logo"
           width={100}
           height={100}
-          className="invert-80"
+          className=""
         />
       </SidebarHeader>
       <SidebarContent>

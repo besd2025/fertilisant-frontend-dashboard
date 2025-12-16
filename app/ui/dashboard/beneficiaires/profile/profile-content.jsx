@@ -9,8 +9,8 @@ import { BookCheck, History, MapPinHouse, ShoppingCart } from "lucide-react";
 function ActivityList({ items }) {
   return (
     <Card className="p-2 space-y-4 rounded-xl shadow-sm">
-      <Tabs defaultValue="ventes" className="space-y-6 w-full">
-        <TabsList className="overflow-x-auto w-full ">
+      <Tabs defaultValue="ventes" className="space-y-6 w-full ">
+        <TabsList className=" w-full h-max">
           <TabsTrigger value="ventes">
             <ShoppingCart /> Commandes effectues
           </TabsTrigger>
