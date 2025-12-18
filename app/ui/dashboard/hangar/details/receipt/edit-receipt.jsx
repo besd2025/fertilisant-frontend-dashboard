@@ -17,17 +17,17 @@ import { SquarePen } from "lucide-react";
 import ViewImageDialog from "@/components/ui/view-image-dialog";
 
 export default function EditReceipts({
-  from_hangar = "",
-  to_hangar_destination_name = "",
+  from_sdl = "",
+  to_sdl_destination_name = "",
   society = "",
   localite = {},
   qte_tranferer = {},
   photo_fiche = "",
 }) {
   const [open, setOpen] = React.useState(false);
-  const [fromHangar, setFromHangar] = React.useState(from_hangar || "");
+  const [fromHangar, setFromHangar] = React.useState(from_sdl || "");
   const [toDepulpeur, setToDepulpeur] = React.useState(
-    to_hangar_destination_name || ""
+    to_sdl_destination_name || ""
   );
   const [soc, setSoc] = React.useState(society || "");
   const [province, setProvince] = React.useState(localite?.province || "");
@@ -37,8 +37,8 @@ export default function EditReceipts({
   const [photoFicheUrl, setPhotoFicheUrl] = React.useState(photo_fiche || "");
 
   React.useEffect(() => {
-    setFromHangar(from_hangar || "");
-    setToDepulpeur(to_hangar_destination_name || "");
+    setFromHangar(from_sdl || "");
+    setToDepulpeur(to_sdl_destination_name || "");
     setSoc(society || "");
     setProvince(localite?.province || "");
     setCommune(localite?.commune || "");
@@ -46,8 +46,8 @@ export default function EditReceipts({
     setCbValue(qte_tranferer?.cb || 0);
     setPhotoFicheUrl(photo_fiche || "");
   }, [
-    from_hangar,
-    to_hangar_destination_name,
+    from_sdl,
+    to_sdl_destination_name,
     society,
     localite,
     qte_tranferer,
@@ -57,8 +57,8 @@ export default function EditReceipts({
   const handleSubmit = (e) => {
     e.preventDefault();
     const payload = {
-      from_hangar: fromHangar,
-      to_hangar_destination_name: toDepulpeur,
+      from_sdl: fromHangar,
+      to_sdl_destination_name: toDepulpeur,
       society: soc,
       localite: { province, commune },
       qte_tranferer: { ca: caValue, cb: cbValue },

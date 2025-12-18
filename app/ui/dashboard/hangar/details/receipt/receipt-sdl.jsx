@@ -72,10 +72,8 @@ export default function ReceiptHangarCt({ data }) {
 
               <div>
                 <EditReceipts
-                  from_hangar={transfer.from_hangar}
-                  to_hangar_destination_name={
-                    transfer.to_hangar_destination_name
-                  }
+                  from_sdl={transfer.from_sdl}
+                  to_sdl_destination_name={transfer.to_sdl_destination_name}
                   society={transfer.society}
                   localite={transfer.localite}
                   qte_tranferer={transfer.qte_tranferer}
@@ -88,7 +86,7 @@ export default function ReceiptHangarCt({ data }) {
       },
     },
     {
-      accessorKey: "from_hangar",
+      accessorKey: "from_sdl",
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -100,8 +98,8 @@ export default function ReceiptHangarCt({ data }) {
       ),
       filterFn: (row, columnId, filterValue) => {
         if (!filterValue) return true;
-        const source = row.original.from_hangar ?? "";
-        const target = row.original.to_hangar_destination_name ?? "";
+        const source = row.original.from_sdl ?? "";
+        const target = row.original.to_sdl_destination_name ?? "";
         const search = filterValue.toLowerCase();
         return (
           source.toLowerCase().includes(search) ||
@@ -109,7 +107,7 @@ export default function ReceiptHangarCt({ data }) {
         );
       },
       cell: ({ row }) => (
-        <div className="font-medium">{row.getValue("from_hangar")}</div>
+        <div className="font-medium">{row.getValue("from_sdl")}</div>
       ),
     },
 
@@ -203,9 +201,9 @@ export default function ReceiptHangarCt({ data }) {
           <Search className="h-5 w-5 absolute inset-y-0 my-auto left-2.5 " />
           <Input
             placeholder="Rechercher..."
-            value={table.getColumn("from_hangar")?.getFilterValue() ?? ""}
+            value={table.getColumn("from_sdl")?.getFilterValue() ?? ""}
             onChange={(event) =>
-              table.getColumn("from_hangar")?.setFilterValue(event.target.value)
+              table.getColumn("from_sdl")?.setFilterValue(event.target.value)
             }
             className="pl-10 flex-1  shadow-none w-[300px] lg:w-[380px] rounded-lg bg-background max-w-sm border-none"
           />

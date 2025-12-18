@@ -74,13 +74,13 @@ export default function Achats({ data }) {
                 Copier code
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <Link href="/fertilisant-dashboard/cultivators/profile">
+              <Link href="/odeca-dashboard/cultivators/profile">
                 <DropdownMenuItem>Profile</DropdownMenuItem>
               </Link>
               <div>
                 <EditAchats
                   cultivator={cultivator.cultivator}
-                  hangar_ct={cultivator.hangar_ct}
+                  sdl_ct={cultivator.sdl_ct}
                   society={cultivator.society}
                   localite={cultivator.localite}
                   num_fiche={cultivator.num_fiche}

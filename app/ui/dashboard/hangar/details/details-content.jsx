@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
+import { fetchData } from "@/app/_utils/api";
 import EditHistory from "./edit-history";
 import {
   DropdownMenu,
@@ -21,17 +21,18 @@ import {
   ScrollText,
   ShoppingCart,
   Spline,
+  Truck,
   Users,
 } from "lucide-react";
 import CultivatorsListTable from "../../beneficiaires/list";
 import Achats from "./achats/achats";
-import TransferHangarDep from "./tranfer/transfer-hangar";
-import ReceiptHangarCt from "./receipt/receipt-hangar";
+import TransferHangarDep from "./tranfer/transfer-sdl";
+import ReceiptHangarCt from "./receipt/receipt-sdl";
 import RedementC from "./rendement";
 import RHlist from "./RH";
 import { Button } from "@/components/ui/button";
 
-function DetailsContent({ items }) {
+function DetailsContent({ id }) {
   const cultivatorsData = [
     {
       id: "cultivator_001",
@@ -41,8 +42,8 @@ function DetailsContent({ items }) {
         last_name: "Eddy",
         image_url: "/images/logo_1.jpg",
       },
-      hangar_ct: "NGome",
-      society: "FERTILISANT",
+      sdl_ct: "NGome",
+      society: "ODECA",
       localite: {
         province: "Buja",
         commune: "Ntahangwa",
@@ -57,8 +58,8 @@ function DetailsContent({ items }) {
         last_name: "Eddy",
         image_url: "/images/logo_1.jpg",
       },
-      hangar_ct: "aa",
-      society: "FERTILISANT",
+      sdl_ct: "aa",
+      society: "ODECA",
       localite: {
         province: "Buja",
         commune: "Ntahangwa",
@@ -73,8 +74,8 @@ function DetailsContent({ items }) {
         last_name: "Eddy",
         image_url: "/images/logo_1.jpg",
       },
-      hangar_ct: "NGome",
-      society: "FERTILISANT",
+      sdl_ct: "NGome",
+      society: "ODECA",
       localite: {
         province: "Buja",
         commune: "Ntahangwa",
@@ -82,7 +83,7 @@ function DetailsContent({ items }) {
       champs: 4,
     },
   ];
-  const hangarAchats = [
+  const sdlAchats = [
     {
       id: "cultivator_001",
       cultivator: {
@@ -144,9 +145,9 @@ function DetailsContent({ items }) {
   const transferData = [
     {
       id: "cultivator_001",
-      from_hangar: "Ngome",
+      from_sdl: "Ngome",
       to_depulpeur_name: "NGANE",
-      society: "FERTILISANT",
+      society: "ODECA",
       qte_tranferer: {
         ca: 78452,
         cb: 741,
@@ -177,6 +178,114 @@ function DetailsContent({ items }) {
     },
   ];
   const [tab, setTab] = useState("cultivators");
+
+  const [data, setData] = React.useState([]);
+  const [dataAchat, setAchatDate] = React.useState([]);
+  React.useEffect(() => {
+    const getAchatsSDls = async () => {
+      try {
+        const response = await fetchData(
+          "get",
+          `cafe/stationslavage/${id}/get_achats/`,
+          {}
+        );
+        const results = response?.results;
+        const AchatsHANGARData = results?.map((achats) => ({
+          id: achats?.id,
+          cultivator: {
+            cultivator_code: achats?.beneficiaire?.cultivator_code,
+            first_name: achats?.beneficiaire?.cultivator_first_name,
+            last_name: achats?.beneficiaire?.cultivator_last_name,
+            image_url: achats?.beneficiaire?.cultivator_photo,
+          },
+          localite: {
+            province:
+              achats?.beneficiaire?.cultivator_adress?.zone_code?.commune_code
+                ?.province_code?.province_name,
+            commune:
+              achats?.beneficiaire?.cultivator_adress?.zone_code?.commune_code
+                ?.commune_name,
+          },
+          num_fiche: 784,
+          num_recu: achats?.numero_recu,
+          photo_fiche: achats?.photo_fiche,
+          ca: achats?.quantite_cerise_a,
+          cb: achats?.quantite_cerise_b,
+          date: achats?.date_achat,
+        }));
+        setAchatDate(AchatsHANGARData);
+      } catch (error) {
+        console.error("Error fetching cultivators data:", error);
+      }
+    };
+    const getCultivators = async () => {
+      try {
+        const response = await fetchData(
+          "get",
+          `cafe/stationslavage/${id}/get_cultivators/`,
+          {}
+        );
+        const results = response?.results;
+        const cultivatorsData = results?.map((cultivator) => ({
+          id: cultivator?.id,
+          cultivator: {
+            cultivator_code: cultivator?.cultivator_code,
+            first_name: cultivator?.cultivator_first_name,
+            last_name: cultivator?.cultivator_last_name,
+            image_url: cultivator?.cultivator_photo,
+          },
+          sdl_ct: "NGome",
+          society: "ODECA",
+          localite: {
+            province:
+              cultivator?.cultivator_adress?.zone_code?.commune_code
+                ?.province_code?.province_name,
+            commune:
+              cultivator?.cultivator_adress?.zone_code?.commune_code
+                ?.commune_name,
+          },
+          champs: 4,
+        }));
+        setData(cultivatorsData);
+      } catch (error) {
+        console.error("Error fetching cultivators data:", error);
+      }
+    };
+    const getTransfers = async () => {
+      try {
+        const response = await fetchData(
+          "get",
+          `cafe/stationslavage/${id}/get_transferts/`,
+          {}
+        );
+        const results = response?.results;
+        console.log("transfert: ", response);
+        const transfersData = results?.map((transfer) => ({
+          id: transfer?.id,
+
+          from_sdl: "Ngome",
+          to_depulpeur_name: "NGANE",
+          society: "ODECA",
+          qte_tranferer: {
+            ca: 78452,
+            cb: 741,
+          },
+          photo_fiche: "/images/logo_1.jpg",
+          localite: {
+            province: "Buja",
+            commune: "Ntahangwa",
+          },
+        }));
+      } catch (error) {
+        console.error("Error fetching cultivators data:", error);
+      }
+    };
+
+    getAchatsSDls();
+    getCultivators();
+    getTransfers();
+  }, [id]);
+
   return (
     <Card className="p-2 space-y-4 rounded-xl shadow-sm">
       <Tabs value={tab} className="space-y-6 w-full" onValueChange={setTab}>
@@ -187,31 +296,10 @@ function DetailsContent({ items }) {
           </TabsTrigger>
 
           <TabsTrigger value="achats" className="shrink-0">
-            <ShoppingCart className="w-4 h-4" /> Achats effectues
+            <Truck className="w-4 h-4" /> Commandes collectees
           </TabsTrigger>
 
           {/* Hidden on Mobile */}
-          <TabsTrigger
-            value="transferHangar"
-            className="hidden lg:flex shrink-0"
-          >
-            <Spline className="w-4 h-4" /> Transfer(HANGAR → Depulpage)
-          </TabsTrigger>
-
-          <TabsTrigger
-            value="receptionHangar"
-            className="hidden lg:flex shrink-0"
-          >
-            <Spline className="w-4 h-4" /> Reception(CT)
-          </TabsTrigger>
-
-          <TabsTrigger value="rendement" className="hidden lg:flex shrink-0">
-            <ChartNoAxesCombined className="w-4 h-4" /> Rendement
-          </TabsTrigger>
-
-          <TabsTrigger value="rh" className="hidden lg:flex shrink-0">
-            <ScrollText className="w-4 h-4" /> RH
-          </TabsTrigger>
 
           <TabsTrigger value="maps" className="hidden lg:flex shrink-0">
             <MapPinHouse className="w-4 h-4" /> Map
@@ -229,22 +317,12 @@ function DetailsContent({ items }) {
               <DropdownMenuContent align="start">
                 <DropdownMenuLabel>Menu</DropdownMenuLabel>
 
-                <DropdownMenuItem onClick={() => setTab("transferHangar")}>
-                  <Spline className="w-4 h-4" /> Transfer(HANGAR → Depulpage)
+                <DropdownMenuItem onClick={() => setTab("achats")}>
+                  <Truck className="w-4 h-4" /> Commandes collectees
                 </DropdownMenuItem>
 
-                <DropdownMenuItem onClick={() => setTab("receptionHangar")}>
-                  <Spline className="w-4 h-4" /> Reception(CT)
-                </DropdownMenuItem>
-
-                <DropdownMenuSeparator />
-
-                <DropdownMenuItem onClick={() => setTab("rendement")}>
-                  <ChartNoAxesCombined className="w-4 h-4" /> Rendement
-                </DropdownMenuItem>
-
-                <DropdownMenuItem onClick={() => setTab("rh")}>
-                  <ScrollText className="w-4 h-4" /> RH
+                <DropdownMenuItem onClick={() => setTab("cultivators")}>
+                  <Users className="w-4 h-4" /> Beneficiaires
                 </DropdownMenuItem>
 
                 <DropdownMenuSeparator />
@@ -258,14 +336,11 @@ function DetailsContent({ items }) {
         </TabsList>
         <TabsContent value="cultivators">
           <h1 className="text-xl font-semibold m-2">Liste des Beneficiaires</h1>
-          <CultivatorsListTable
-            data={cultivatorsData}
-            isCultivatorsPage={false}
-          />
+          <CultivatorsListTable data={data} isCultivatorsPage={false} />
         </TabsContent>
         <TabsContent value="achats">
           <h1 className="text-xl font-semibold m-2">Achats effectues</h1>
-          <Achats data={hangarAchats} />
+          <Achats data={dataAchat} />
         </TabsContent>
 
         <TabsContent value="maps">En cours...</TabsContent>

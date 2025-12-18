@@ -11,137 +11,183 @@ import {
   Banknote,
   CircleDollarSign,
   Grape,
+  HandCoins,
+  Handshake,
   Landmark,
   Mars,
+  ShoppingBag,
+  Truck,
   Users,
   Venus,
+  WalletCards,
 } from "lucide-react";
 import { fetchData } from "@/app/_utils/api";
 function StatsCard({ id }) {
-  const [data, setData] = React.useState([]);
+  const [data, setData] = React.useState(0);
+  const [cultivators, setCultivators] = React.useState(0);
+  const [montants, setMontants] = React.useState(0);
   React.useEffect(() => {
-    const getHangars = async () => {
+    const fetchSummaryData = async () => {
       try {
-        const response = await fetchData("get", `cafe/stationslavage/${id}/`, {
-          params: {},
-          additionalHeaders: {},
-          body: {},
-        });
-
-        setData(response);
+        const data = await fetchData(
+          "get",
+          "fertilisant/commandes/get_total_commandes/",
+          {
+            params: {},
+          }
+        );
+        const cultivators = await fetchData(
+          "get",
+          "fertilisant/hangars/get_total_cultivators/",
+          {
+            params: {},
+          }
+        );
+        const montant = await fetchData(
+          "get",
+          "fertilisant/commandes/get_total_commandes_montant/",
+          {
+            params: {},
+          }
+        );
+        setData(data);
+        setCultivators(cultivators);
+        setMontants(montant);
       } catch (error) {
-        console.error("Error fetching cultivators data:", error);
+        console.error("Error fetching summary data:", error);
       }
     };
-
-    getHangars();
-  }, [id]);
+    fetchSummaryData();
+  }, []);
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       <Card className="@container/card">
         <CardHeader>
           <div className="flex flex-row gap-x-2 items-center">
             <div className="bg-primary p-2 rounded-md">
-              <Archive className="text-white" />
+              <Truck className="text-white" />
             </div>
             <CardTitle className="text-2xl @[250px]/card:text-3xl font-semibold tracking-tight tabular-nums">
-              60 194,59 <span className="text-base">T</span>
+              {data?.quantite_total >= 1000 ? (
+                <>
+                  {(data?.quantite_total / 1000).toLocaleString("fr-FR", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}{" "}
+                  <span className="text-base">T</span>
+                </>
+              ) : (
+                <>
+                  {data?.quantite_total?.toLocaleString("fr-FR") || 0}{" "}
+                  <span className="text-sm">Kg</span>
+                </>
+              )}
             </CardTitle>
           </div>
           <CardTitle className="text-lg font-semibold tabular-nums  ">
-            Qte Colectee
+            Qte commandées
+            <div className="text-sm font-normal text-muted-foreground">
+              (toutes variétés)
+            </div>
           </CardTitle>
+          {/* <CardAction>
+                  <Badge variant="secondary">
+                    <IconTrendingUp />
+                    +12.5%
+                  </Badge>
+                </CardAction> */}
         </CardHeader>
         <CardFooter className="flex flex-row items-center justify-between text-sm ">
-          {/* <div className="text-muted-foreground">Qte totale (CA+CB)</div> */}
           <div className="ml-2 flex flex-col gap-y-1">
-            <div className="flex flex-row gap-x-2 items-center bg-primary/10 py-1 px-2 rounded-lg w-max">
-              <div className="flex flex-row gap-x-1 items-center">
-                <Grape className="text-primary size-5" />
-                <CardTitle className="text-md font-semibold text-primary">
-                  Cerise A :
-                </CardTitle>
-              </div>
-              <CardDescription className="font-semibold text-accent-foreground text-lg">
-                60 194,59 <span className="text-sm">T</span>
-              </CardDescription>
-            </div>
             <div className="flex flex-row gap-x-2 items-center bg-secondary/10 py-1 px-2 rounded-lg">
               <div className="flex flex-row gap-x-1 items-center">
-                <Grape className="text-secondary size-5" />
+                <ShoppingBag className="text-secondary size-5" />
                 <CardTitle className="text-md font-semibold text-secondary">
-                  Cerise B :
+                  Sacs :
                 </CardTitle>
               </div>
               <CardDescription className="font-semibold text-accent-foreground text-lg">
-                20 194,59 <span className="text-sm">T</span>
+                20,59
               </CardDescription>
             </div>
           </div>
         </CardFooter>
       </Card>
-      <Card className="@container/card">
+      <Card className="@container/card ">
         <CardHeader>
           <div className="flex flex-row gap-x-2 items-center">
-            <div className="bg-yellow-500 p-2 rounded-md">
-              <CircleDollarSign className="text-white" />
+            <div className="bg-secondary p-2 rounded-md">
+              <HandCoins className="text-white" />
             </div>
-            <CardTitle className="text-lg text-muted-foreground font-medium tabular-nums  ">
-              Montant
+            <CardTitle className="text-2xl @[250px]/card:text-3xl font-semibold tracking-tight tabular-nums">
+              {cultivators?.total_cultivators}
             </CardTitle>
           </div>
-          <CardTitle className="text-3xl @[250px]/card:text-3xl font-semibold tracking-tight tabular-nums">
-            60 194 559 456 <span className="text-base">FBU</span>
+          <CardTitle className="text-lg font-semibold tabular-nums  ">
+            Beneficiaires
           </CardTitle>
-          <div className="mt-3">
-            <div className="flex flex-row gap-x-2 items-center">
-              <Banknote className="text-secondary" />
-
-              <CardTitle className="text-muted-foreground font-medium tabular-nums  ">
-                Tranche 1
-              </CardTitle>
-            </div>
-            <CardTitle className="text-lg font-semibold tracking-tight tabular-nums">
-              559 456 <span className="text-base">FBU</span>
-            </CardTitle>
-          </div>
+          {/* <CardAction>
+                  <Badge variant="secondary">
+                    <IconTrendingUp />
+                    +12.5%
+                  </Badge>
+                </CardAction> */}
         </CardHeader>
       </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <div className="flex flex-row gap-x-2 items-center">
-            <div className="bg-secondary p-2 rounded-full">
-              <Users className="text-white" />
+      <Card className="@container/card bg-primary text-primary-foreground">
+        <CardHeader className="bg-primary">
+          <div className="flex flex-col  mt-2">
+            <div className="flex flex-row gap-x-2 items-center">
+              <div className="rounded-md">
+                <CircleDollarSign className="text-yellow-500 size-4" />
+              </div>
+              <CardTitle className="text-sm  font-medium tabular-nums">
+                MONTANT
+              </CardTitle>
             </div>
-            <CardTitle className="text-lg text-muted-foreground font-medium tabular-nums  ">
-              Beneficiaires
+            <CardTitle className="text-xl font-semibold tracking-tight tabular-nums">
+              {(montants?.avance_montant + montants?.reste_a_payer ?? 0)
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}{" "}
+              <span className="text-xs font-normal ">FBU</span>
             </CardTitle>
           </div>
-          <CardTitle className="text-xl font-semibold tracking-tight tabular-nums">
-            540
-          </CardTitle>
-          <div className="flex flex-row gap-x-4 mt-4">
-            <div className="flex flex-col ">
-              <div className="text-muted-foreground font-medium tabular-nums flex gap-x-1 ">
-                <span>
-                  <Mars />
+          <div className="flex flex-col  bg-sidebar text-primary dark:text-primary-foreground   px-4 py-2 rounded-tl-lg rounded-tr-lg">
+            <div className="">
+              <div className="flex flex-row gap-x-2 items-center">
+                <div className="rounded-md">
+                  <Handshake className="text-yellow-500 size-4" />
+                </div>
+                <CardTitle className="text-xs text-muted-foreground font-medium tabular-nums">
+                  AVANCE
+                </CardTitle>
+              </div>
+              <CardTitle className="text-lg font-semibold tracking-tight tabular-nums">
+                {(montants?.avance_montant ?? 0)
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}{" "}
+                <span className="text-xs font-normal text-muted-foreground">
+                  FBU
                 </span>
-                Homme
-              </div>
-              <div className="text-lg font-semibold tracking-tight tabular-nums ml-4">
-                500
-              </div>
+              </CardTitle>
             </div>
-            <div className="flex flex-col ">
-              <div className="text-muted-foreground font-medium tabular-nums flex gap-x-1 ">
-                <span>
-                  <Venus />
+            <div className="flex flex-col mt-1">
+              <div className="flex flex-row gap-x-2 items-center">
+                <div className="rounded-md">
+                  <WalletCards className="text-yellow-500 size-4" />
+                </div>
+                <CardTitle className="text-xs text-muted-foreground font-medium tabular-nums">
+                  RESTANT
+                </CardTitle>
+              </div>
+              <CardTitle className="text-lg font-semibold tracking-tight tabular-nums">
+                {(montants?.reste_a_payer ?? 0)
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}{" "}
+                <span className="text-xs font-normal text-muted-foreground">
+                  FBU
                 </span>
-                Femme
-              </div>
-              <div className="text-lg font-semibold tracking-tight tabular-nums ml-4">
-                40
-              </div>
+              </CardTitle>
             </div>
           </div>
         </CardHeader>

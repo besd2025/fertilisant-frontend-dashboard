@@ -18,7 +18,7 @@ import ViewImageDialog from "@/components/ui/view-image-dialog";
 
 export default function EditAchats({
   cultivator = {},
-  hangar_ct = "",
+  sdl_ct = "",
   society = "",
   localite = {},
   num_fiche = "",
@@ -33,7 +33,7 @@ export default function EditAchats({
   const [code, setCode] = React.useState(cultivator.cultivator_code || "");
   const [firstName, setFirstName] = React.useState(cultivator.first_name || "");
   const [lastName, setLastName] = React.useState(cultivator.last_name || "");
-  const [hangar, setHangar] = React.useState(hangar_ct || "");
+  const [sdl, setHangar] = React.useState(sdl_ct || "");
   const [soc, setSoc] = React.useState(society || "");
   const [province, setProvince] = React.useState(localite?.province || "");
   const [commune, setCommune] = React.useState(localite?.commune || "");
@@ -49,7 +49,7 @@ export default function EditAchats({
     setCode(cultivator.cultivator_code || "");
     setFirstName(cultivator.first_name || "");
     setLastName(cultivator.last_name || "");
-    setHangar(hangar_ct || "");
+    setHangar(sdl_ct || "");
     setSoc(society || "");
     setProvince(localite?.province || "");
     setCommune(localite?.commune || "");
@@ -62,7 +62,7 @@ export default function EditAchats({
     setPhotoRecu(null);
   }, [
     cultivator,
-    hangar_ct,
+    sdl_ct,
     society,
     localite,
     num_fiche,
@@ -81,7 +81,7 @@ export default function EditAchats({
       cultivator_code: code,
       first_name: firstName,
       last_name: lastName,
-      hangar_ct: hangar,
+      sdl_ct: sdl,
       society: soc,
       localite: { province, commune },
       num_fiche: ficheNumber,
@@ -114,7 +114,7 @@ export default function EditAchats({
           <div className="custom-scrollbar h-[60vh] lg:max-h-[500px] overflow-y-auto px-2 pb-3">
             <div>
               <h5 className="mb-5 text-xl font-medium text-primary dark:text-white/90 lg:mb-6">
-                Code beneficiaire
+                Code cultivateur
               </h5>
 
               <Input

@@ -68,7 +68,7 @@ export default function TransferHangarDep({ data }) {
               <DropdownMenuItem
                 onClick={() =>
                   navigator.clipboard.writeText(
-                    `${transfer.from_hangar} -> ${transfer.to_depulpeur_name}`
+                    `${transfer.from_sdl} -> ${transfer.to_depulpeur_name}`
                   )
                 }
               >
@@ -82,7 +82,7 @@ export default function TransferHangarDep({ data }) {
 
               <div>
                 <EditTransfers
-                  from_hangar={transfer.from_hangar}
+                  from_sdl={transfer.from_sdl}
                   to_depulpeur_name={transfer.to_depulpeur_name}
                   society={transfer.society}
                   localite={transfer.localite}
@@ -96,7 +96,7 @@ export default function TransferHangarDep({ data }) {
       },
     },
     {
-      accessorKey: "from_hangar",
+      accessorKey: "from_sdl",
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -108,7 +108,7 @@ export default function TransferHangarDep({ data }) {
       ),
       filterFn: (row, columnId, filterValue) => {
         if (!filterValue) return true;
-        const source = row.original.from_hangar ?? "";
+        const source = row.original.from_sdl ?? "";
         const target = row.original.to_depulpeur_name ?? "";
         const search = filterValue.toLowerCase();
         return (
@@ -117,7 +117,7 @@ export default function TransferHangarDep({ data }) {
         );
       },
       cell: ({ row }) => (
-        <div className="font-medium">{row.getValue("from_hangar")}</div>
+        <div className="font-medium">{row.getValue("from_sdl")}</div>
       ),
     },
     {
@@ -225,9 +225,9 @@ export default function TransferHangarDep({ data }) {
           <Search className="h-5 w-5 absolute inset-y-0 my-auto left-2.5 " />
           <Input
             placeholder="Rechercher..."
-            value={table.getColumn("from_hangar")?.getFilterValue() ?? ""}
+            value={table.getColumn("from_sdl")?.getFilterValue() ?? ""}
             onChange={(event) =>
-              table.getColumn("from_hangar")?.setFilterValue(event.target.value)
+              table.getColumn("from_sdl")?.setFilterValue(event.target.value)
             }
             className="pl-10 flex-1  shadow-none w-[300px] lg:w-[380px] rounded-lg bg-background max-w-sm border-none"
           />

@@ -16,8 +16,8 @@ const products = [
   {
     id: 101,
     date: "12/8/2025",
-    hangar_ct_type: "HANGAR",
-    hangar_ct_name: "Ngome",
+    sdl_ct_type: "HANGAR",
+    sdl_ct_name: "Ngome",
     No_fiche: 59.99,
     No_recus: 4.5,
     ca: 452,
@@ -28,8 +28,8 @@ const products = [
   {
     id: 102,
     date: "12/8/2025",
-    hangar_ct_type: "HANGAR",
-    hangar_ct_name: "Ngome",
+    sdl_ct_type: "HANGAR",
+    sdl_ct_name: "Ngome",
     No_fiche: 59.99,
     No_recus: 4.5,
     ca: 452,
@@ -65,7 +65,7 @@ export default function Ventes() {
             <TableRow>
               <TableHead className="pl-4">ID</TableHead>
               <TableHead>Date d'achat</TableHead>
-              <TableHead>HANGAR</TableHead>
+              <TableHead>HANGAR/CT</TableHead>
               <TableHead>No Fiche</TableHead>
               <TableHead>No Recus</TableHead>
               <TableHead>CA</TableHead>
@@ -80,7 +80,7 @@ export default function Ventes() {
                 <TableCell className="pl-4">{product.id}</TableCell>
                 <TableCell className="font-medium">{product.date}</TableCell>
                 <TableCell>
-                  {product.hangar_ct_type} {product.hangar_ct_name}
+                  {product.sdl_ct_type} {product.sdl_ct_name}
                 </TableCell>
                 <TableCell>{product.No_fiche}</TableCell>
                 <TableCell>{product.No_recus}</TableCell>

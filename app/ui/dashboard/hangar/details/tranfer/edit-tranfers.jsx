@@ -17,7 +17,7 @@ import { SquarePen } from "lucide-react";
 import ViewImageDialog from "@/components/ui/view-image-dialog";
 
 export default function EditTransfers({
-  from_hangar = "",
+  from_sdl = "",
   to_depulpeur_name = "",
   society = "",
   localite = {},
@@ -25,7 +25,7 @@ export default function EditTransfers({
   photo_fiche = "",
 }) {
   const [open, setOpen] = React.useState(false);
-  const [fromHangar, setFromHangar] = React.useState(from_hangar || "");
+  const [fromHangar, setFromHangar] = React.useState(from_sdl || "");
   const [toDepulpeur, setToDepulpeur] = React.useState(to_depulpeur_name || "");
   const [soc, setSoc] = React.useState(society || "");
   const [province, setProvince] = React.useState(localite?.province || "");
@@ -35,7 +35,7 @@ export default function EditTransfers({
   const [photoFicheUrl, setPhotoFicheUrl] = React.useState(photo_fiche || "");
 
   React.useEffect(() => {
-    setFromHangar(from_hangar || "");
+    setFromHangar(from_sdl || "");
     setToDepulpeur(to_depulpeur_name || "");
     setSoc(society || "");
     setProvince(localite?.province || "");
@@ -44,7 +44,7 @@ export default function EditTransfers({
     setCbValue(qte_tranferer?.cb || 0);
     setPhotoFicheUrl(photo_fiche || "");
   }, [
-    from_hangar,
+    from_sdl,
     to_depulpeur_name,
     society,
     localite,
@@ -55,7 +55,7 @@ export default function EditTransfers({
   const handleSubmit = (e) => {
     e.preventDefault();
     const payload = {
-      from_hangar: fromHangar,
+      from_sdl: fromHangar,
       to_depulpeur_name: toDepulpeur,
       society: soc,
       localite: { province, commune },

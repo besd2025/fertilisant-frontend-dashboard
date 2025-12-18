@@ -74,7 +74,7 @@ export default function RHlist({ data }) {
                 Copier code
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <Link href="/fertilisant-dashboard/cultivators/profile">
+              <Link href="/odeca-dashboard/cultivators/profile">
                 <DropdownMenuItem>Profile</DropdownMenuItem>
               </Link>
             </DropdownMenuContent>

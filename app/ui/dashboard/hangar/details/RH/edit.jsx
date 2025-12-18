@@ -17,7 +17,7 @@ import { SquarePen } from "lucide-react";
 
 export default function Edit({
   cultivator = {},
-  hangar_ct = "",
+  sdl_ct = "",
   society = "",
   localite = {},
   champs = 0,
@@ -28,7 +28,7 @@ export default function Edit({
   const [firstName, setFirstName] = React.useState(cultivator.first_name || "");
   const [lastName, setLastName] = React.useState(cultivator.last_name || "");
   const [imageUrl, setImageUrl] = React.useState(cultivator.image_url || "");
-  const [hangar, setHangar] = React.useState(hangar_ct || "");
+  const [sdl, setHangar] = React.useState(sdl_ct || "");
   const [soc, setSoc] = React.useState(society || "");
   const [province, setProvince] = React.useState(localite?.province || "");
   const [commune, setCommune] = React.useState(localite?.commune || "");
@@ -40,12 +40,12 @@ export default function Edit({
     setFirstName(cultivator.first_name || "");
     setLastName(cultivator.last_name || "");
     setImageUrl(cultivator.image_url || "");
-    setHangar(hangar_ct || "");
+    setHangar(sdl_ct || "");
     setSoc(society || "");
     setProvince(localite?.province || "");
     setCommune(localite?.commune || "");
     setNbChamps(champs || 0);
-  }, [cultivator, hangar_ct, society, localite, champs]);
+  }, [cultivator, sdl_ct, society, localite, champs]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -55,7 +55,7 @@ export default function Edit({
       first_name: firstName,
       last_name: lastName,
       image_url: imageUrl,
-      hangar_ct: hangar,
+      sdl_ct: sdl,
       society: soc,
       localite: { province, commune },
       champs: nbChamps,
@@ -83,7 +83,7 @@ export default function Edit({
           <div className="custom-scrollbar h-[60vh] lg:max-h-[500px] overflow-y-auto px-2 pb-3">
             <div>
               <h5 className="mb-5 text-xl font-medium text-primary dark:text-white/90 lg:mb-6">
-                Code beneficiaire
+                Code cultivateur
               </h5>
 
               <Input
@@ -139,10 +139,10 @@ export default function Edit({
                   />
                 </div>
                 <div className="col-span-2 lg:col-span-1 space-y-2">
-                  <Label>HANGAR</Label>
+                  <Label>HANGAR/CT</Label>
                   <Input
                     type="text"
-                    value={hangar}
+                    value={sdl}
                     onChange={(e) => setHangar(e.target.value)}
                   />
                 </div>
