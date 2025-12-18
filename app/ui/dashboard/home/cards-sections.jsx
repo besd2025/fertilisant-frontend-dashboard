@@ -1,6 +1,5 @@
-import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react";
-
-import { Badge } from "@/components/ui/badge";
+"use client";
+import React from "react";
 import {
   Card,
   CardDescription,
@@ -20,8 +19,44 @@ import {
   Truck,
   WalletCards,
 } from "lucide-react";
-
+import { fetchData } from "@/app/_utils/api";
 export function SectionCards() {
+  const [data, setData] = React.useState(0);
+  const [cultivators, setCultivators] = React.useState(0);
+  const [montants, setMontants] = React.useState(0);
+  React.useEffect(() => {
+    const fetchSummaryData = async () => {
+      try {
+        const data = await fetchData(
+          "get",
+          "fertilisant/commandes/get_total_commandes/",
+          {
+            params: {},
+          }
+        );
+        const cultivators = await fetchData(
+          "get",
+          "fertilisant/hangars/get_total_cultivators/",
+          {
+            params: {},
+          }
+        );
+        const montant = await fetchData(
+          "get",
+          "fertilisant/commandes/get_total_commandes_montant/",
+          {
+            params: {},
+          }
+        );
+        setData(data);
+        setCultivators(cultivators);
+        setMontants(montant);
+      } catch (error) {
+        console.error("Error fetching summary data:", error);
+      }
+    };
+    fetchSummaryData();
+  }, []);
   return (
     <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
       <Card className="@container/card">
@@ -31,7 +66,20 @@ export function SectionCards() {
               <Truck className="text-white" />
             </div>
             <CardTitle className="text-2xl @[250px]/card:text-3xl font-semibold tracking-tight tabular-nums">
-              60 194,59 <span className="text-base">T</span>
+              {data?.quantite_total >= 1000 ? (
+                <>
+                  {(data?.quantite_total / 1000).toLocaleString("fr-FR", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}{" "}
+                  <span className="text-base">T</span>
+                </>
+              ) : (
+                <>
+                  {data?.quantite_total?.toLocaleString("fr-FR") || 0}{" "}
+                  <span className="text-sm">Kg</span>
+                </>
+              )}
             </CardTitle>
           </div>
           <CardTitle className="text-lg font-semibold tabular-nums  ">
@@ -70,7 +118,7 @@ export function SectionCards() {
               <HandCoins className="text-white" />
             </div>
             <CardTitle className="text-2xl @[250px]/card:text-3xl font-semibold tracking-tight tabular-nums">
-              20 194,59
+              {cultivators?.total_cultivators}
             </CardTitle>
           </div>
           <CardTitle className="text-lg font-semibold tabular-nums  ">
@@ -96,7 +144,10 @@ export function SectionCards() {
               </CardTitle>
             </div>
             <CardTitle className="text-xl font-semibold tracking-tight tabular-nums">
-              78 453 565 <span className="text-xs font-normal ">FBU</span>
+              {(montants?.avance_montant + montants?.reste_a_payer ?? 0)
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}{" "}
+              <span className="text-xs font-normal ">FBU</span>
             </CardTitle>
           </div>
           <div className="flex flex-col  bg-sidebar text-primary dark:text-primary-foreground   px-4 py-2 rounded-tl-lg rounded-tr-lg">
@@ -110,7 +161,9 @@ export function SectionCards() {
                 </CardTitle>
               </div>
               <CardTitle className="text-lg font-semibold tracking-tight tabular-nums">
-                453 565{" "}
+                {(montants?.avance_montant ?? 0)
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}{" "}
                 <span className="text-xs font-normal text-muted-foreground">
                   FBU
                 </span>
@@ -126,7 +179,9 @@ export function SectionCards() {
                 </CardTitle>
               </div>
               <CardTitle className="text-lg font-semibold tracking-tight tabular-nums">
-                78 453 565{" "}
+                {(montants?.reste_a_payer ?? 0)
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}{" "}
                 <span className="text-xs font-normal text-muted-foreground">
                   FBU
                 </span>

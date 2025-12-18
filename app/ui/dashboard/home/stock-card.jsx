@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   Card,
@@ -8,8 +9,29 @@ import {
 } from "@/components/ui/card";
 import { Package, DollarSign, TrendingUp, ShoppingBag } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-
+import { fetchData } from "@/app/_utils/api";
 export function StockSummaryCard() {
+  const [data, setData] = React.useState(0);
+
+  React.useEffect(() => {
+    const fetchSummaryData = async () => {
+      try {
+        const data = await fetchData(
+          "get",
+          "fertilisant/commandes/get_total_quantite_par_commande_type/",
+          {
+            params: {},
+          }
+        );
+
+        setData(data);
+      } catch (error) {
+        console.error("Error fetching summary data:", error);
+      }
+    };
+    fetchSummaryData();
+  }, []);
+
   return (
     <Card className="@container/stock h-full">
       <CardHeader>
@@ -32,8 +54,20 @@ export function StockSummaryCard() {
               </span>
             </span>
             <span className="text-2xl font-bold ">
-              45 458
-              <span className="text-base">T</span>
+              {data?.total >= 1000 ? (
+                <>
+                  {(data?.total / 1000).toLocaleString("fr-FR", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}{" "}
+                  <span className="text-xs">T</span>
+                </>
+              ) : (
+                <>
+                  {data?.total?.toLocaleString("fr-FR") || 0}{" "}
+                  <span className="text-xs">Kg</span>
+                </>
+              )}
             </span>
             <span className="text-sm text-muted-foreground">
               Nombre de sacs : 45
@@ -46,7 +80,24 @@ export function StockSummaryCard() {
             <div className="flex flex-wrap gap-4   ">
               <div className="flex flex-col gap-y-2 font-semibold">
                 <span>
-                  TOTAHAZA : 30 <span className="text-xs">T</span>
+                  TOTAHAZA :{" "}
+                  {data?.total_commandes_urea >= 1000 ? (
+                    <>
+                      {(data?.total_commandes_urea / 1000).toLocaleString(
+                        "fr-FR",
+                        {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        }
+                      )}{" "}
+                      <span className="text-xs">T</span>
+                    </>
+                  ) : (
+                    <>
+                      {data?.total_commandes_urea?.toLocaleString("fr-FR") || 0}{" "}
+                      <span className="text-xs">Kg</span>
+                    </>
+                  )}
                   <span className="font-normal text-sm text-muted-foreground flex flex-row gap-x-1 items-center">
                     <ShoppingBag className="text-secondary size-4" />
                     <span>sacs: 45</span>
@@ -54,7 +105,25 @@ export function StockSummaryCard() {
                 </span>
                 <Separator />
                 <span>
-                  IMBURA : 15.2 <span className="text-xs">T</span>
+                  IMBURA :{" "}
+                  {data?.total_commandes_imbura >= 1000 ? (
+                    <>
+                      {(data?.total_commandes_imbura / 1000).toLocaleString(
+                        "fr-FR",
+                        {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        }
+                      )}{" "}
+                      <span className="text-xs">T</span>
+                    </>
+                  ) : (
+                    <>
+                      {data?.total_commandes_imbura?.toLocaleString("fr-FR") ||
+                        0}{" "}
+                      <span className="text-xs">Kg</span>
+                    </>
+                  )}
                   <span className="font-normal text-sm text-muted-foreground flex flex-row gap-x-1 items-center">
                     <ShoppingBag className="text-secondary size-4" />
                     <span>sacs: 45</span>
@@ -68,7 +137,25 @@ export function StockSummaryCard() {
             <div className="flex flex-wrap gap-4   ">
               <div className="flex flex-col gap-y-2 font-semibold">
                 <span>
-                  BAGARA : 30 <span className="text-xs">T</span>
+                  BAGARA :{" "}
+                  {data?.total_commandes_bagara >= 1000 ? (
+                    <>
+                      {(data?.total_commandes_bagara / 1000).toLocaleString(
+                        "fr-FR",
+                        {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        }
+                      )}{" "}
+                      <span className="text-xs">T</span>
+                    </>
+                  ) : (
+                    <>
+                      {data?.total_commandes_bagara?.toLocaleString("fr-FR") ||
+                        0}{" "}
+                      <span className="text-xs">Kg</span>
+                    </>
+                  )}
                   <span className="font-normal text-sm text-muted-foreground flex flex-row gap-x-1 items-center">
                     <ShoppingBag className="text-secondary size-4" />
                     <span>sacs: 45</span>
@@ -76,7 +163,25 @@ export function StockSummaryCard() {
                 </span>
                 <Separator />
                 <span>
-                  DOLOMIE : 15.2 <span className="text-xs">T</span>
+                  DOLOMIE :{" "}
+                  {data?.total_commandes_dolomie >= 1000 ? (
+                    <>
+                      {(data?.total_commandes_dolomie / 1000).toLocaleString(
+                        "fr-FR",
+                        {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        }
+                      )}{" "}
+                      <span className="text-xs">T</span>
+                    </>
+                  ) : (
+                    <>
+                      {data?.total_commandes_dolomie?.toLocaleString("fr-FR") ||
+                        0}{" "}
+                      <span className="text-xs">Kg</span>
+                    </>
+                  )}
                   <span className="font-normal text-sm text-muted-foreground flex flex-row gap-x-1 items-center">
                     <ShoppingBag className="text-secondary size-4" />
                     <span>sacs: 45</span>

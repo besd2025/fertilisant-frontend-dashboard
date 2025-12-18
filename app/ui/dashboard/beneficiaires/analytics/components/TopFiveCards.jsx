@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-
+import { fetchData } from "@/app/_utils/api";
 const topFields = [
   {
     image: "/images/logo_1.jpg",
@@ -147,6 +147,37 @@ function TopListCard({ title, icon, data }) {
 }
 
 export function TopFiveCards() {
+  const [datatopQtes, setDataTopQtes] = React.useState([]);
+  React.useEffect(() => {
+    const getTopQtes = async () => {
+      try {
+        const response = await fetchData(
+          "get",
+          `/fertilisant/hangars/get_top_5_clutivateurs_avec_beaucoup_de_quantite_by_count/`,
+          {
+            params: {},
+            additionalHeaders: {},
+            body: {},
+          }
+        );
+        const topQtes = response.map((item) => ({
+          image:
+            process.env.NEXT_PUBLIC_IMAGE_URL +
+            item?.cultivator__cultivator_photo,
+          name:
+            item?.cultivator__cultivator_last_name +
+            " " +
+            item?.cultivator__cultivator_first_name,
+          value: item?.nombre_sacs,
+          sub: "Sacs",
+        }));
+        setDataTopQtes(topQtes);
+      } catch (error) {
+        console.error("Error fetching cultivators data:", error);
+      }
+    };
+    getTopQtes();
+  }, []);
   return (
     <div className="grid gap-4 md:grid-cols-3">
       <TopListCard
@@ -162,7 +193,7 @@ export function TopFiveCards() {
       <TopListCard
         title="Top 5 - Quantité commandée"
         icon={<Scale className="h-4 w-4" />}
-        data={topQuantity}
+        data={datatopQtes}
       />
     </div>
   );
