@@ -86,46 +86,6 @@ const chartData = [
     BAGARA: 20,
     DOLOMIE: 10,
   },
-  {
-    location: "MAKAMBA",
-    commandes: 209,
-    TOTAHAZA: 130,
-    IMBURA: 120,
-    BAGARA: 20,
-    DOLOMIE: 10,
-  },
-  {
-    location: "KIRUNDO",
-    commandes: 214,
-    TOTAHAZA: 140,
-    IMBURA: 120,
-    BAGARA: 20,
-    DOLOMIE: 10,
-  },
-  {
-    location: "MUYINGA",
-    commandes: 73,
-    TOTAHAZA: 190,
-    IMBURA: 120,
-    BAGARA: 20,
-    DOLOMIE: 10,
-  },
-  {
-    location: "MAKAMBA",
-    commandes: 209,
-    TOTAHAZA: 130,
-    IMBURA: 120,
-    BAGARA: 20,
-    DOLOMIE: 10,
-  },
-  {
-    location: "KIRUNDO",
-    commandes: 214,
-    TOTAHAZA: 140,
-    IMBURA: 120,
-    BAGARA: 20,
-    DOLOMIE: 10,
-  },
 ];
 
 const chartConfig = {
@@ -177,7 +137,7 @@ export function CommandeProv() {
               axisLine={false}
               tickFormatter={(value) => value}
             />
-            <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+            <ChartTooltip content={<ChartTooltipContent />} />
             <ChartLegend content={<ChartLegendContent />} />
             <Bar
               dataKey="TOTAHAZA"

@@ -67,6 +67,9 @@ export default function Ventes() {
               <TableHead>Recus</TableHead>
               <TableHead>Montant</TableHead>
               <TableHead>Avance</TableHead>
+              <TableHead className="sticky right-0 bg-sidebar border-l">
+                Statut
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -88,7 +91,7 @@ export default function Ventes() {
                 </TableCell>
                 <TableCell>{product.montant} Fbu</TableCell>
                 <TableCell>{product.avance} Fbu</TableCell>
-                <TableCell>
+                <TableCell className="sticky right-0 bg-sidebar border-l-2 border-background ">
                   <Badge variant="secondary">
                     <Truck />
                     En cours
