@@ -3,12 +3,27 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building2, CheckCircle2, XCircle } from "lucide-react";
-
+import { fetchData } from "@/app/_utils/api";
 export function HangarSummaryCards() {
   const totalHangar = 150;
   const activeHangar = 120;
   const inactiveHangar = 30;
-
+  const [data, setData] = React.useState([]);
+  React.useEffect(() => {
+    const getHangarData = async () => {
+      try {
+        const response = await fetchData(
+          "get",
+          `fertilisant/hangars/get_active_and_non_active_hangars/`,
+          {}
+        );
+        setData(response);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    getHangarData();
+  }, []);
   return (
     <div className="grid gap-4 md:grid-cols-3">
       <Card className="@container/card">
@@ -18,7 +33,7 @@ export function HangarSummaryCards() {
               <Building2 className="text-white" />
             </div>
             <CardTitle className="text-2xl @[250px]/card:text-3xl font-semibold tracking-tight tabular-nums ml-2">
-              {totalHangar}
+              {data?.total_hangars}
             </CardTitle>
           </div>
           <CardTitle className="text-lg font-semibold tabular-nums ml-2">
@@ -33,10 +48,14 @@ export function HangarSummaryCards() {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {activeHangar.toLocaleString()}
+            {data?.hangars_avec_commands}
           </div>
           <p className="text-xs text-muted-foreground">
-            {((activeHangar / totalHangar) * 100).toFixed(1)}% du total
+            {(
+              (data?.hangars_avec_commands / data?.total_hangars) *
+              100
+            ).toFixed(1)}
+            % du total
           </p>
         </CardContent>
       </Card>
@@ -46,11 +65,10 @@ export function HangarSummaryCards() {
           <XCircle className="h-4 w-4 text-destructive" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">
-            {inactiveHangar.toLocaleString()}
-          </div>
+          <div className="text-2xl font-bold">{data?.inactive_hangars}</div>
           <p className="text-xs text-muted-foreground">
-            {((inactiveHangar / totalHangar) * 100).toFixed(1)}% du total
+            {((data?.inactive_hangars / data?.total_hangars) * 100).toFixed(1)}%
+            du total
           </p>
         </CardContent>
       </Card>

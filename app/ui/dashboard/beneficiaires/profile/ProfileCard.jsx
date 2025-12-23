@@ -45,7 +45,6 @@ function ProfileCard({ cult_id }) {
           body: {},
         });
         setData(response);
-        console.log("Cultivators data fetched:", response);
       } catch (error) {
         console.error("Error fetching cultivators data:", error);
       }

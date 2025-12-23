@@ -25,34 +25,25 @@ import { fetchData } from "@/app/_utils/api";
 function StatsCard({ id }) {
   const [data, setData] = React.useState(0);
   const [cultivators, setCultivators] = React.useState(0);
-  const [montants, setMontants] = React.useState(0);
   React.useEffect(() => {
     const fetchSummaryData = async () => {
       try {
         const data = await fetchData(
           "get",
-          "fertilisant/commandes/get_total_commandes/",
+          `fertilisant/hangars/${id}/get_total_sacs_quantity_per_hangar/`,
           {
             params: {},
           }
         );
         const cultivators = await fetchData(
           "get",
-          "fertilisant/hangars/get_total_cultivators/",
-          {
-            params: {},
-          }
-        );
-        const montant = await fetchData(
-          "get",
-          "fertilisant/commandes/get_total_commandes_montant/",
+          `fertilisant/hangars/${id}/get_total_cultivators_sdl/`,
           {
             params: {},
           }
         );
         setData(data);
         setCultivators(cultivators);
-        setMontants(montant);
       } catch (error) {
         console.error("Error fetching summary data:", error);
       }
@@ -68,9 +59,9 @@ function StatsCard({ id }) {
               <Truck className="text-white" />
             </div>
             <CardTitle className="text-2xl @[250px]/card:text-3xl font-semibold tracking-tight tabular-nums">
-              {data?.quantite_total >= 1000 ? (
+              {data?.total_quantity >= 1000 ? (
                 <>
-                  {(data?.quantite_total / 1000).toLocaleString("fr-FR", {
+                  {(data?.total_quantity / 1000).toLocaleString("fr-FR", {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                   })}{" "}
@@ -78,7 +69,7 @@ function StatsCard({ id }) {
                 </>
               ) : (
                 <>
-                  {data?.quantite_total?.toLocaleString("fr-FR") || 0}{" "}
+                  {data?.total_quantity?.toLocaleString("fr-FR") || 0}{" "}
                   <span className="text-sm">Kg</span>
                 </>
               )}
@@ -107,7 +98,7 @@ function StatsCard({ id }) {
                 </CardTitle>
               </div>
               <CardDescription className="font-semibold text-accent-foreground text-lg">
-                20,59
+                {data?.total_sacs?.toLocaleString("fr-FR") || 0}
               </CardDescription>
             </div>
           </div>
@@ -120,7 +111,7 @@ function StatsCard({ id }) {
               <HandCoins className="text-white" />
             </div>
             <CardTitle className="text-2xl @[250px]/card:text-3xl font-semibold tracking-tight tabular-nums">
-              {cultivators?.total_cultivators}
+              {cultivators?.hommes + cultivators?.femmes || 0}
             </CardTitle>
           </div>
           <CardTitle className="text-lg font-semibold tabular-nums  ">
@@ -146,7 +137,7 @@ function StatsCard({ id }) {
               </CardTitle>
             </div>
             <CardTitle className="text-xl font-semibold tracking-tight tabular-nums">
-              {(montants?.avance_montant + montants?.reste_a_payer ?? 0)
+              {(data?.montant_paye + data?.montant_a_payer ?? 0)
                 .toString()
                 .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}{" "}
               <span className="text-xs font-normal ">FBU</span>
@@ -163,7 +154,7 @@ function StatsCard({ id }) {
                 </CardTitle>
               </div>
               <CardTitle className="text-lg font-semibold tracking-tight tabular-nums">
-                {(montants?.avance_montant ?? 0)
+                {(data?.montant_paye ?? 0)
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}{" "}
                 <span className="text-xs font-normal text-muted-foreground">
@@ -181,7 +172,7 @@ function StatsCard({ id }) {
                 </CardTitle>
               </div>
               <CardTitle className="text-lg font-semibold tracking-tight tabular-nums">
-                {(montants?.reste_a_payer ?? 0)
+                {(data?.montant_a_payer ?? 0)
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}{" "}
                 <span className="text-xs font-normal text-muted-foreground">
