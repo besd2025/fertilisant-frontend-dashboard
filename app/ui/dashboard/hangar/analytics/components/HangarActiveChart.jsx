@@ -1,4 +1,6 @@
 "use client";
+import React from "react";
+import { fetchData } from "@/app/_utils/api";
 import { LabelList, Pie, PieChart } from "recharts";
 import {
   Card,
@@ -33,6 +35,41 @@ const chartConfig = {
 };
 
 export function HangarActiveChart() {
+  const [data, setData] = React.useState([]);
+  React.useEffect(() => {
+    const getHangars = async () => {
+      try {
+        const response = await fetchData(
+          "get",
+          `fertilisant/hangars/get_hangars_avec_cultivateurs/`,
+          {
+            params: {},
+            additionalHeaders: {},
+            body: {},
+          }
+        );
+        const chartData = [
+          {
+            status: "Actif",
+            count: response?.hangars_avec_cultivarors,
+            fill: "var(--color-actif)",
+          },
+          {
+            status: "Non Actif",
+            count: response?.total_hangars - response?.hangars_avec_cultivarors,
+
+            fill: "var(--color-inactif)",
+          },
+        ];
+        setData(chartData);
+      } catch (error) {
+        console.error("Error fetching cultivators data:", error);
+      }
+    };
+
+    getHangars();
+  }, []);
+
   return (
     <Card className="col-span-1 lg:col-span-2">
       <CardHeader>
@@ -48,7 +85,7 @@ export function HangarActiveChart() {
             <ChartTooltip
               content={<ChartTooltipContent nameKey="count" hideLabel />}
             />
-            <Pie data={chartData} dataKey="count">
+            <Pie data={data} dataKey="count">
               <LabelList
                 dataKey="status"
                 className="fill-background"

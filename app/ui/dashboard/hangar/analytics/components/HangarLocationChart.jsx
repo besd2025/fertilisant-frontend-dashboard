@@ -22,22 +22,7 @@ import {
   CartesianGrid,
   LabelList,
 } from "recharts";
-
-const locationData = {
-  province: [
-    { name: "Province A", count: 45 },
-    { name: "Province B", count: 35 },
-    { name: "Province C", count: 25 },
-    { name: "Province D", count: 15 },
-  ],
-  region: [
-    { name: "Region X", count: 20 },
-    { name: "Region Y", count: 18 },
-    { name: "Region Z", count: 15 },
-    { name: "Region W", count: 12 },
-    { name: "Region V", count: 10 },
-  ],
-};
+import { fetchData } from "@/app/_utils/api";
 
 const locationConfig = {
   count: {
@@ -48,6 +33,47 @@ const locationConfig = {
 
 export function HangarLocationChart() {
   const [locFilter, setLocFilter] = useState("province");
+  const [data, setData] = useState({
+    province: [],
+    region: [],
+  });
+
+  React.useEffect(() => {
+    const getCtsProvince = async () => {
+      try {
+        const response = await fetchData(
+          "get",
+          `fertilisant/hangars/get_count_hangars_par_provinces/`,
+          {
+            params: {},
+            additionalHeaders: {},
+            body: {},
+          }
+        );
+        console.log("Hangar location response:", response);
+        const provinceData = response.map((item) => ({
+          name: item?.hangar_adress__zone_code__commune_code__province_code__province_name,
+          count: item?.count,
+        }));
+
+        const regionData = [
+          { name: "Region X", count: 15 },
+          { name: "Region Y", count: 12 },
+          { name: "Region Z", count: 10 },
+          { name: "Region W", count: 8 },
+          { name: "Region V", count: 5 },
+        ];
+        setData({
+          province: provinceData,
+          region: regionData,
+        });
+      } catch (error) {
+        console.error("Error fetching cultivators data:", error);
+      }
+    };
+
+    getCtsProvince();
+  }, []);
 
   return (
     <Card className="lg:col-span-1">
@@ -74,7 +100,7 @@ export function HangarLocationChart() {
         >
           <BarChart
             accessibilityLayer
-            data={locationData[locFilter]}
+            data={data[locFilter]}
             layout="vertical"
             margin={{
               right: 16,

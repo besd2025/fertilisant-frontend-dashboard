@@ -168,6 +168,8 @@ const FullscreenImageModal = ({ isOpen, onClose, imageUrl, alt }) => {
  * - Renders a small rounded-full image.
  * - When clicked, opens the fullscreen modal above.
  */
+const BASE_URL =
+  process.env.NEXT_PUBLIC_IMAGE_UR || process.env.NEXT_PUBLIC_IMAGE_DOMAIN;
 const ViewImageDialog = ({
   imageUrl,
   alt = "Image",
@@ -177,6 +179,16 @@ const ViewImageDialog = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   let src = imageUrl || fallbackUrl;
+  // --- 1. Ensure empty string or null is filtered ---
+  const cleanUrl = imageUrl && imageUrl.trim() !== "" ? imageUrl : null;
+
+  // --- 2. Build absolute URL for children API ---
+  let finalSrc = cleanUrl
+    ? cleanUrl.startsWith("http")
+      ? cleanUrl
+      : `${BASE_URL}${cleanUrl}`
+    : fallbackUrl;
+
   return (
     <>
       <button
@@ -190,7 +202,7 @@ const ViewImageDialog = ({
         )}
       >
         <Image
-          src={src}
+          src={finalSrc}
           alt={alt}
           fill
           sizes="40px"

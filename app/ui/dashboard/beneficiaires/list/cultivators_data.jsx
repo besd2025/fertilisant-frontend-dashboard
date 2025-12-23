@@ -13,7 +13,12 @@ function CultivatorData() {
   useEffect(() => {
     const getCultivators = async () => {
       try {
-        const response = await fetchData("get", "cultivators/", {});
+        const response = await fetchData("get", "cultivators/", {
+          params: {
+            limit: 100,
+            offset: 0,
+          },
+        });
         const results = response?.results;
         const cultivatorsData = results.map((cultivator) => ({
           id: cultivator.id,
@@ -37,7 +42,6 @@ function CultivatorData() {
         }));
 
         setData(cultivatorsData);
-        console.log("Cultivators data fetched:", cultivatorsData);
       } catch (error) {
         console.error("Error fetching cultivators data:", error);
       }

@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Scale, Users, Warehouse, MoreHorizontal } from "lucide-react";
 import ViewImageDialog from "@/components/ui/view-image-dialog";
 import { Button } from "@/components/ui/button";
+import { fetchData } from "@/app/_utils/api";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -119,7 +120,7 @@ function TopListCard({ title, icon, data }) {
           {data.map((item, i) => (
             <div key={i} className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <ViewImageDialog imageUrl={item.image} />
+                {/* <ViewImageDialog imageUrl={item.image} /> */}
                 <span className="text-sm font-medium leading-none">
                   {item.name}
                 </span>
@@ -152,17 +153,67 @@ function TopListCard({ title, icon, data }) {
 }
 
 export function HangarTopFiveCards() {
+  const [datatopMembers, setDataTopMembers] = React.useState([]);
+  const [datatopAchats, setDataTopAchats] = React.useState([]);
+  React.useEffect(() => {
+    const getTopMembers = async () => {
+      try {
+        const response = await fetchData(
+          "get",
+          `fertilisant/hangars/get_top_5_hangars_with_more_cultivators_ordered_by_count/`,
+          {
+            params: {},
+            additionalHeaders: {},
+            body: {},
+          }
+        );
+        const topMembers = response.map((item) => ({
+          image: "/images/logo_1.jpg",
+          name: item?.collector__collector_hangar_angrais__hangar__hangar_name,
+          value: item?.count,
+          sub: "Membres",
+        }));
+        setDataTopMembers(topMembers);
+      } catch (error) {
+        console.error("Error fetching cultivators data:", error);
+      }
+    };
+    const getTopAchats = async () => {
+      try {
+        const response = await fetchData(
+          "get",
+          `fertilisant/hangars/get_top_5_hangars_with_more_quantity_cerise_ordered_by_count/`,
+          {
+            params: {},
+            additionalHeaders: {},
+            body: {},
+          }
+        );
+        const topAchats = response.map((item) => ({
+          name: item?.collector__collector_hangar_angrais__hangar__hangar_name,
+          value: item?.nombre_sacs,
+          sub: "Sacs",
+        }));
+        setDataTopAchats(topAchats);
+      } catch (error) {
+        console.error("Error fetching cultivators data:", error);
+      }
+    };
+
+    getTopAchats();
+    getTopMembers();
+  }, []);
   return (
     <div className="grid gap-4 md:grid-cols-3">
       <TopListCard
         title="Top 5 - Quantité Collectée"
         icon={<Scale className="h-4 w-4" />}
-        data={topQuantity}
+        data={datatopAchats}
       />
       <TopListCard
         title="Top 5 - Nombre de Membres"
         icon={<Users className="h-4 w-4" />}
-        data={topMembers}
+        data={datatopMembers}
       />
       <TopListCard
         title="Top 5 - Capacité Stockage"
