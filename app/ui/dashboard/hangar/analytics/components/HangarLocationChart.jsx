@@ -50,7 +50,6 @@ export function HangarLocationChart() {
             body: {},
           }
         );
-        console.log("Hangar location response:", response);
         const provinceData = response.map((item) => ({
           name: item?.hangar_adress__zone_code__commune_code__province_code__province_name,
           count: item?.count,

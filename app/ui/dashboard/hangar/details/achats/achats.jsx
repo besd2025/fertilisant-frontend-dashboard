@@ -152,15 +152,15 @@ export default function Achats({ data }) {
         );
       },
     },
-    {
-      accessorKey: "num_fiche",
-      header: "No Fiche",
-      cell: ({ row }) => (
-        <div className="text-center font-semibold">
-          {row.getValue("num_fiche")}
-        </div>
-      ),
-    },
+    // {
+    //   accessorKey: "num_fiche",
+    //   header: "No recu",
+    //   cell: ({ row }) => (
+    //     <div className="text-center font-semibold">
+    //       {row.getValue("num_fiche")}
+    //     </div>
+    //   ),
+    // },
     {
       accessorKey: "num_recu",
       header: "No Recus",
@@ -178,7 +178,7 @@ export default function Achats({ data }) {
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            CA
+            Type
             <ArrowUpDownIcon />
           </Button>
         );
@@ -195,7 +195,7 @@ export default function Achats({ data }) {
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            CB
+            Sacs
             <ArrowUpDownIcon />
           </Button>
         );
@@ -206,7 +206,7 @@ export default function Achats({ data }) {
     },
     {
       accessorKey: "photo_fiche",
-      header: "Fiche",
+      header: "Recu",
       cell: ({ row }) => (
         <div className="text-center font-semibold">
           <ViewImageDialog

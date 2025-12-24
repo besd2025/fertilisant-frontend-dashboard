@@ -33,115 +33,6 @@ import RHlist from "./RH";
 import { Button } from "@/components/ui/button";
 
 function DetailsContent({ id }) {
-  const cultivatorsData = [
-    {
-      id: "cultivator_001",
-      cultivator: {
-        cultivator_code: "2530-522-7545",
-        first_name: "Brave",
-        last_name: "Eddy",
-        image_url: "/images/logo_1.jpg",
-      },
-      sdl_ct: "NGome",
-      society: "ODECA",
-      localite: {
-        province: "Buja",
-        commune: "Ntahangwa",
-      },
-      champs: 4,
-    },
-    {
-      id: "cultivator_002",
-      cultivator: {
-        cultivator_code: "2530-522-7545",
-        first_name: "jaa",
-        last_name: "Eddy",
-        image_url: "/images/logo_1.jpg",
-      },
-      sdl_ct: "aa",
-      society: "ODECA",
-      localite: {
-        province: "Buja",
-        commune: "Ntahangwa",
-      },
-      champs: 4,
-    },
-    {
-      id: "cultivator_003",
-      cultivator: {
-        cultivator_code: "2530-56833",
-        first_name: "yoo",
-        last_name: "Eddy",
-        image_url: "/images/logo_1.jpg",
-      },
-      sdl_ct: "NGome",
-      society: "ODECA",
-      localite: {
-        province: "Buja",
-        commune: "Ntahangwa",
-      },
-      champs: 4,
-    },
-  ];
-  const sdlAchats = [
-    {
-      id: "cultivator_001",
-      cultivator: {
-        cultivator_code: "2530-522-7545",
-        first_name: "Brave",
-        last_name: "Eddy",
-        image_url: "/images/logo_1.jpg",
-      },
-      localite: {
-        province: "Buja",
-        commune: "Ntahangwa",
-      },
-      num_fiche: 784,
-      num_recu: 7894,
-      photo_fiche: "/images/logo_1.jpg",
-      ca: 78,
-      cb: 456,
-      date: "12/7/2025",
-    },
-    {
-      id: "cultivator_001",
-      cultivator: {
-        cultivator_code: "2530-522-7545",
-        first_name: "Brave",
-        last_name: "Eddy",
-        image_url: "/images/logo_1.jpg",
-      },
-      localite: {
-        province: "Buja",
-        commune: "Ntahangwa",
-      },
-      num_fiche: 784,
-      num_recu: 7894,
-      photo_fiche: "/images/logo_1.jpg",
-      ca: 33,
-      cb: 4,
-      date: "12/7/2025",
-    },
-    {
-      id: "cultivator_001",
-      cultivator: {
-        cultivator_code: "2530-522-7545",
-        first_name: "Brave",
-        last_name: "Eddy",
-        image_url: "/images/logo_1.jpg",
-      },
-      localite: {
-        province: "Buja",
-        commune: "Ntahangwa",
-      },
-      num_fiche: 784,
-      num_recu: 7894,
-      photo_fiche: "/images/logo_1.jpg",
-      ca: 10,
-      cb: 0,
-      date: "12/7/2025",
-    },
-  ];
   const transferData = [
     {
       id: "cultivator_001",
@@ -180,50 +71,14 @@ function DetailsContent({ id }) {
   const [tab, setTab] = useState("cultivators");
 
   const [data, setData] = React.useState([]);
-  const [dataAchat, setAchatDate] = React.useState([]);
+  const [commandeData, setCommandeData] = React.useState([]);
   React.useEffect(() => {
-    const getAchatsSDls = async () => {
-      try {
-        const response = await fetchData(
-          "get",
-          `cafe/stationslavage/${id}/get_achats/`,
-          {}
-        );
-        const results = response?.results;
-        const AchatsHANGARData = results?.map((achats) => ({
-          id: achats?.id,
-          cultivator: {
-            cultivator_code: achats?.beneficiaire?.cultivator_code,
-            first_name: achats?.beneficiaire?.cultivator_first_name,
-            last_name: achats?.beneficiaire?.cultivator_last_name,
-            image_url: achats?.beneficiaire?.cultivator_photo,
-          },
-          localite: {
-            province:
-              achats?.beneficiaire?.cultivator_adress?.zone_code?.commune_code
-                ?.province_code?.province_name,
-            commune:
-              achats?.beneficiaire?.cultivator_adress?.zone_code?.commune_code
-                ?.commune_name,
-          },
-          num_fiche: 784,
-          num_recu: achats?.numero_recu,
-          photo_fiche: achats?.photo_fiche,
-          ca: achats?.quantite_cerise_a,
-          cb: achats?.quantite_cerise_b,
-          date: achats?.date_achat,
-        }));
-        setAchatDate(AchatsHANGARData);
-      } catch (error) {
-        console.error("Error fetching cultivators data:", error);
-      }
-    };
     const getCultivators = async () => {
       try {
         const response = await fetchData(
           "get",
-          `cafe/stationslavage/${id}/get_cultivators/`,
-          {}
+          `fertilisant/hangars/${id}/get_all_paginated_cultivators_per_hangar/`,
+          { params: { limit: 1000, offset: 0 } }
         );
         const results = response?.results;
         const cultivatorsData = results?.map((cultivator) => ({
@@ -246,44 +101,50 @@ function DetailsContent({ id }) {
           },
           champs: 4,
         }));
+
         setData(cultivatorsData);
       } catch (error) {
         console.error("Error fetching cultivators data:", error);
       }
     };
-    const getTransfers = async () => {
+    const getCommandes = async () => {
       try {
         const response = await fetchData(
           "get",
-          `cafe/stationslavage/${id}/get_transferts/`,
-          {}
+          `fertilisant/hangars/${id}/get_all_paginated_command_per_hangar/`,
+          { params: { limit: 1000, offset: 0 } }
         );
         const results = response?.results;
-        console.log("transfert: ", response);
-        const transfersData = results?.map((transfer) => ({
-          id: transfer?.id,
-
-          from_sdl: "Ngome",
-          to_depulpeur_name: "NGANE",
-          society: "ODECA",
-          qte_tranferer: {
-            ca: 78452,
-            cb: 741,
+        const AchatsHANGARCommandes = results?.map((commande) => ({
+          id: commande?.id,
+          cultivator: {
+            cultivator_code: commande?.cultivator?.cultivator_code,
+            first_name: commande?.cultivator?.cultivator_first_name,
+            last_name: commande?.cultivator?.cultivator_last_name,
+            image_url: commande?.cultivator?.cultivator_photo,
           },
-          photo_fiche: "/images/logo_1.jpg",
           localite: {
-            province: "Buja",
-            commune: "Ntahangwa",
+            province:
+              commande?.cultivator?.cultivator_adress?.zone_code?.commune_code
+                ?.province_code?.province_name,
+            commune:
+              commande?.cultivator?.cultivator_adress?.zone_code?.commune_code
+                ?.commune_name,
           },
+          photo_recu: commande?.recu_paiement,
+          ca: commande?.angrais_type,
+          cb: commande?.nombre_sacs,
+          avance: commande?.avance_montant,
+          date: commande?.date_enregistrement,
         }));
+        setCommandeData(AchatsHANGARCommandes);
+        console.log("Formatted Commandes Data:", AchatsHANGARCommandes);
       } catch (error) {
         console.error("Error fetching cultivators data:", error);
       }
     };
-
-    getAchatsSDls();
+    getCommandes();
     getCultivators();
-    getTransfers();
   }, [id]);
 
   return (
@@ -340,14 +201,14 @@ function DetailsContent({ id }) {
         </TabsContent>
         <TabsContent value="achats">
           <h1 className="text-xl font-semibold m-2">Achats effectues</h1>
-          <Achats data={dataAchat} />
+          <Achats data={commandeData} />
         </TabsContent>
 
         <TabsContent value="maps">En cours...</TabsContent>
-        <TabsContent value="transferHangar">
-          <h1 className="text-xl font-semibold m-2">Transfers effectues</h1>
-          <TransferHangarDep data={transferData} />
-        </TabsContent>
+        {/* <TabsContent value="transferHangar">
+        <h1 className="text-xl font-semibold m-2">Transfers effectues</h1>
+        <TransferHangarDep data={transferData} />
+      </TabsContent> */}
         <TabsContent value="receptionHangar">
           <h1 className="text-xl font-semibold m-2">Receptions</h1>
           <ReceiptHangarCt data={transferData} />

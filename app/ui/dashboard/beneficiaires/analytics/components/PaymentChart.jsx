@@ -27,8 +27,39 @@ const paymentConfig = {
   mobile: { label: "Mobile Money", color: "var(--chart-2)" },
   bancaire: { label: "Bancaire", color: "var(--chart-1)" },
 };
-
+import { fetchData } from "@/app/_utils/api";
 export function PaymentChart() {
+  const [data, setData] = React.useState({});
+  React.useEffect(() => {
+    const getCultivators = async () => {
+      try {
+        const response = await fetchData(
+          "get",
+          `/fertilisant/hangars/cultivateurs_par_moyen_paiement/`,
+          {
+            params: {},
+            additionalHeaders: {},
+            body: {},
+          }
+        );
+        const chartData = response.map((item) => ({
+          mode: item?.cultivator_payment_type,
+          visitors: item?.count,
+          fill:
+            item?.cultivator_payment_type === "mobile_money"
+              ? "var(--color-mobile)"
+              : item?.cultivator_payment_type === "bank_transfer"
+              ? "var(--color-bancaire)"
+              : "var(--color-sans_compte)",
+        }));
+        setData(chartData);
+      } catch (error) {
+        console.error("Error fetching cultivators data:", error);
+      }
+    };
+
+    getCultivators();
+  }, []);
   return (
     <Card className="col-span-1">
       <CardHeader>
@@ -46,7 +77,7 @@ export function PaymentChart() {
               content={<ChartTooltipContent hideLabel />}
             />
             <Pie
-              data={paymentData}
+              data={data}
               dataKey="visitors"
               nameKey="mode"
               innerRadius={40}

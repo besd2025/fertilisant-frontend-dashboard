@@ -16,11 +16,13 @@ import {
   Truck,
   Sprout,
 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import { fetchData } from "@/app/_utils/api";
 import { Badge } from "@/components/ui/badge";
-
 export default function DetailsBeneficiaire() {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
   const [data, setData] = React.useState(0);
 
   React.useEffect(() => {
@@ -28,21 +30,55 @@ export default function DetailsBeneficiaire() {
       try {
         const data = await fetchData(
           "get",
-          "fertilisant/commandes/get_total_quantite_par_commande_type/",
+          `/cultivators/${id}/get_cultivateur_avec_command_angrais/`,
           {
             params: {},
           }
         );
 
-        setData(data);
+        const commandeDate = {
+          totahaza: {
+            quantite: data?.totahaza?.total_quantity,
+            sacs: data?.totahaza?.total_sacs,
+            reste_sac: data?.totahaza?.avance,
+            recu_sacs: data?.totahaza?.sacs_received,
+            avance: data?.totahaza?.avance,
+            montant_paye: data?.totahaza?.avance,
+          },
+          imbura: {
+            quantite: data?.imbura?.total_quantity,
+            sacs: data?.imbura?.total_sacs,
+            reste_sac: data?.imbura?.avance,
+            recu_sacs: data?.imbura?.sacs_received,
+            avance: data?.imbura?.avance,
+            montant_paye: data?.imbura?.avance,
+          },
+          bagara: {
+            quantite: data?.bagara?.total_quantity,
+            sacs: data?.bagara?.total_sacs,
+            reste_sac: data?.bagara?.avance,
+            recu_sacs: data?.bagara?.sacs_received,
+            avance: data?.bagara?.avance,
+            montant_paye: data?.bagara?.avance,
+          },
+          dolomie: {
+            quantite: data?.dolomie?.total_quantity,
+            sacs: data?.dolomie?.total_sacs,
+            reste_sac: data?.dolomie?.avance,
+            recu_sacs: data?.dolomie?.sacs_received,
+            avance: data?.dolomie?.avance,
+            montant_paye: data?.dolomie?.avance,
+          },
+        };
+        setData(commandeDate);
       } catch (error) {
         console.error("Error fetching summary data:", error);
       }
     };
     fetchSummaryData();
-  }, []);
+  }, [id]);
 
-  const StatCard = ({ title, icon: Icon, colorClass, delay }) => (
+  const StatCard = ({ title, icon: Icon, colorClass, delay, data }) => (
     <div
       className={`group relative overflow-hidden rounded-lg  bg-muted text-card-foreground  transition-all ${delay}`}
     >
@@ -62,22 +98,19 @@ export default function DetailsBeneficiaire() {
                 <Truck className="w-3 h-3" /> Quantité
               </span>
               <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
-                {data?.total_commandes_urea >= 1000 ? (
+                {data?.quantite >= 1000 ? (
                   <>
-                    {(data?.total_commandes_urea / 1000).toLocaleString(
-                      "fr-FR",
-                      {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      }
-                    )}{" "}
+                    {(data?.quantite / 1000).toLocaleString("fr-FR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}{" "}
                     <span className="text-sm font-medium text-muted-foreground">
                       T
                     </span>
                   </>
                 ) : (
                   <>
-                    {data?.total?.toLocaleString("fr-FR") || 0}{" "}
+                    {data?.quantite?.toLocaleString("fr-FR") || 0}{" "}
                     <span className="text-sm font-medium text-muted-foreground">
                       Kg
                     </span>
@@ -90,7 +123,7 @@ export default function DetailsBeneficiaire() {
               <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1">
                 <ShoppingBag className="w-3 h-3" /> Sacs
               </span>
-              <div className="text-xl font-bold">45</div>
+              <div className="text-xl font-bold">{data?.sacs}</div>
             </div>
           </div>
 
@@ -113,7 +146,10 @@ export default function DetailsBeneficiaire() {
                   OUI
                 </Badge>
                 <span className="text-muted-foreground font-medium text-xs tabular-nums">
-                  (5000 BIF)
+                  {(data?.avance ?? 0)
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}{" "}
+                  BIF
                 </span>
               </div>
             </div>
@@ -125,7 +161,9 @@ export default function DetailsBeneficiaire() {
                 </div>
                 <span>Sacs récupérés</span>
               </div>
-              <span className="font-semibold tabular-nums">45</span>
+              <span className="font-semibold tabular-nums">
+                {data?.recu_sacs}
+              </span>
             </div>
 
             <div className="flex items-center justify-between text-sm group/row hover:bg-muted/30 p-1 rounded transition-colors">
@@ -135,7 +173,9 @@ export default function DetailsBeneficiaire() {
                 </div>
                 <span>Sacs restants</span>
               </div>
-              <span className="font-semibold tabular-nums">45</span>
+              <span className="font-semibold tabular-nums">
+                {data?.reste_sac}
+              </span>
             </div>
 
             <Separator className="bg-border/50 my-1" />
@@ -148,7 +188,10 @@ export default function DetailsBeneficiaire() {
                 </span>
               </div>
               <span className="tabular-nums text-muted-foreground">
-                5000 BIF
+                {(data?.montant_paye - data?.avance ?? 0)
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}{" "}
+                BIF
               </span>
             </div>
           </div>
@@ -165,24 +208,28 @@ export default function DetailsBeneficiaire() {
           icon={Sprout}
           colorClass="bg-emerald-500 text-emerald-600"
           delay="delay-[0ms]"
+          data={data?.totahaza}
         />
         <StatCard
           title="IMBURA"
           icon={Sprout}
           colorClass="bg-amber-500 text-amber-600"
           delay="delay-[100ms]"
+          data={data?.imbura}
         />
         <StatCard
           title="BAGARA"
           icon={Sprout}
           colorClass="bg-blue-500 text-blue-600"
           delay="delay-[200ms]"
+          data={data?.bagara}
         />
         <StatCard
           title="DOLOMIE "
           icon={Sprout}
           colorClass="bg-blue-500 text-blue-600"
           delay="delay-[200ms]"
+          data={data?.dolomie}
         />
       </div>
     </div>

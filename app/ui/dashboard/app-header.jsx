@@ -62,7 +62,6 @@ import { UserContext } from "@/app/ui/context/User_Context";
 import { useRouter } from "next/navigation";
 export function AppHeader() {
   const user = useContext(UserContext);
-  console.log("User context in AppHeader:", user);
   const router = useRouter();
   const logout = () => {
     localStorage.removeItem("accessToken");

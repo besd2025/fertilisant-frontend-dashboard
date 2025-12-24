@@ -41,7 +41,7 @@ export function HangarActiveChart() {
       try {
         const response = await fetchData(
           "get",
-          `fertilisant/hangars/get_hangars_avec_cultivateurs/`,
+          `fertilisant/hangars/get_active_and_non_active_hangars/`,
           {
             params: {},
             additionalHeaders: {},
@@ -51,12 +51,12 @@ export function HangarActiveChart() {
         const chartData = [
           {
             status: "Actif",
-            count: response?.hangars_avec_cultivarors,
+            count: response?.hangars_avec_commands,
             fill: "var(--color-actif)",
           },
           {
             status: "Non Actif",
-            count: response?.total_hangars - response?.hangars_avec_cultivarors,
+            count: response?.inactive_hangars,
 
             fill: "var(--color-inactif)",
           },
