@@ -161,7 +161,7 @@ export default function DetailsBeneficiaire() {
     <div className="h-full w-full p-1 lg:p-2">
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-in fade-in zoom-in duration-500">
         <StatCard
-          title="TOTAHAZA"
+          title="TOTAL"
           icon={Sprout}
           colorClass="bg-emerald-500 text-emerald-600"
           delay="delay-[0ms]"

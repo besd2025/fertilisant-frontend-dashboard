@@ -70,9 +70,9 @@ const menuItems = {
 
     {
       title: "Commandes",
-      url: "/fertilisant-dashboard/orders",
+      url: "/fertilisant-dashboard/commandes",
       icon: <FileCheck />,
-      keyword: "orders",
+      keyword: "commandes",
     },
     {
       title: "Hangar",

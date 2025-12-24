@@ -179,17 +179,13 @@ export function TopFiveCards() {
     getTopQtes();
   }, []);
   return (
-    <div className="grid gap-4 md:grid-cols-3">
+    <div className="grid gap-4 md:grid-cols-2">
       <TopListCard
         title="Top 5 - Nombre de Champs"
         icon={<Sprout className="h-4 w-4" />}
         data={topFields}
       />
-      <TopListCard
-        title="Top 5 - Nombre de Pieds"
-        icon={<Trees className="h-4 w-4" />}
-        data={topTrees}
-      />
+
       <TopListCard
         title="Top 5 - Quantité commandée"
         icon={<Scale className="h-4 w-4" />}
