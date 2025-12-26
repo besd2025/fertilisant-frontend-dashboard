@@ -1,13 +1,13 @@
 import React from "react";
 import { SectionCards } from "./cards-sections";
-import { ChartPieHangarCtActive } from "./charts/hangar-active";
-import { ChartLineAchats } from "./charts/hangar-achats";
+import { ChartPieHangarCtActive } from "../commandes/comparatif";
+import { ChartLineAchats } from "../commandes/commandes-chart";
 import { StockSummaryCard } from "./stock-card";
 import { KPIGrid } from "./kpi-stats";
 import { RecentTransactions } from "./recent-transactions";
 import { TopPerformers } from "./top-performers";
 import Saison from "./saison";
-import { CommandeProv } from "./commande -prov";
+import { CommandeProv } from "../commandes/commande -prov-chart";
 
 function DashboardContainer() {
   return (
