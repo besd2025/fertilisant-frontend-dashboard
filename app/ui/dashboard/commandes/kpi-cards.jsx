@@ -99,7 +99,7 @@ export function OrdersKpiCards() {
         </CardHeader>
       </Card>
       {/* Commandes Conformes (Quota OK) */}
-      <Card className="@container/card">
+      {/* <Card className="@container/card">
         <CardHeader>
           <div className="flex flex-row gap-x-2 items-center">
             <div className="bg-green-500 p-2 rounded-md">
@@ -116,10 +116,10 @@ export function OrdersKpiCards() {
             </div>
           </CardTitle>
         </CardHeader>
-      </Card>
+      </Card> */}
 
       {/* En Anomalie (Quota Exceeded) */}
-      <Card className="@container/card">
+      {/* <Card className="@container/card">
         <CardHeader>
           <div className="flex flex-row gap-x-2 items-center">
             <div className="bg-red-500 p-2 rounded-md">
@@ -136,7 +136,7 @@ export function OrdersKpiCards() {
             </div>
           </CardTitle>
         </CardHeader>
-      </Card>
+      </Card> */}
     </div>
   );
 }

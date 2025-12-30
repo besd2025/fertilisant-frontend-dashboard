@@ -32,11 +32,9 @@ export function CommandesFilters() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Tous les statuts</SelectItem>
-            <SelectItem value="draft">Brouillon</SelectItem>
-            <SelectItem value="confirmed">Confirmé</SelectItem>
-            <SelectItem value="paid_advance">Payé (Avance)</SelectItem>
-            <SelectItem value="paid_balance">Payé (Solde)</SelectItem>
             <SelectItem value="delivered">Livré</SelectItem>
+            <SelectItem value="not_delivered">Non Livré</SelectItem>
+            <SelectItem value="delivered">En attente</SelectItem>
           </SelectContent>
         </Select>
 
@@ -46,6 +44,7 @@ export function CommandesFilters() {
             <SelectValue placeholder="Type d'intrant" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="all">Tous les types</SelectItem>
             <SelectItem value="all">TOTAHAZA</SelectItem>
             <SelectItem value="npk">IMBURA</SelectItem>
             <SelectItem value="uree">BAGARA</SelectItem>
@@ -54,7 +53,7 @@ export function CommandesFilters() {
         </Select>
 
         {/* Superficie (Min/Max) - Simplified as range selector or dropdown for prototype */}
-        <Select>
+        {/* <Select>
           <SelectTrigger className="w-[140px]">
             <SelectValue placeholder="Superficie" />
           </SelectTrigger>
@@ -64,14 +63,14 @@ export function CommandesFilters() {
             <SelectItem value="medium">0.5 - 2 ha</SelectItem>
             <SelectItem value="large"> 2 ha</SelectItem>
           </SelectContent>
-        </Select>
+        </Select> */}
 
         <Separator orientation="vertical" className="h-8" />
 
         {/* Solde Payé */}
         <Select>
           <SelectTrigger className="w-[130px]">
-            <SelectValue placeholder="Solde ?" />
+            <SelectValue placeholder="Paye en ?" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="yes">Avance</SelectItem>
