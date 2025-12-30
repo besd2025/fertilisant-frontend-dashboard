@@ -35,72 +35,52 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import PaginationControls from "@/components/ui/pagination-controls"; // Assuming generic component
 import ExportButton from "@/components/ui/export_button"; // Assuming generic component
 import ViewImageDialog from "@/components/ui/view-image-dialog";
 // import Filter from "../filter"; // Keeping consistent with HangarsListTable but commenting out if not directly usable, can enable later
-
+import { fetchData } from "@/app/_utils/api";
 export function OrdersTable() {
-  // Dummy Data
-  const initialOrders = [
-    {
-      id: "#CMD-001",
-      date: "2023-10-25 14:30",
-      beneficiary: { name: "Jean Dupont", avatar: "JD", zone: "Zone 1" },
-      products: "NPK 17-17-17 (2 sacs)",
-      total: 50000,
-      status: "confirmed",
-      quotaOk: true,
-    },
-    {
-      id: "#CMD-002",
-      date: "2023-10-24 09:15",
-      beneficiary: { name: "Marie Curie", avatar: "MC", zone: "Zone 2" },
-      products: "Urée (3 sacs)",
-      total: 75000,
-      status: "paid_advance",
-      quotaOk: true,
-    },
-    {
-      id: "#CMD-003",
-      date: "2023-10-23 16:45",
-      beneficiary: { name: "Paul Martin", avatar: "PM", zone: "Zone 1" },
-      products: "DAP (10 sacs)",
-      total: 250000,
-      status: "draft",
-      quotaOk: false,
-    },
-    {
-      id: "#CMD-004",
-      date: "2023-10-22 10:00",
-      beneficiary: { name: "Alice Wonderland", avatar: "AW", zone: "Zone 3" },
-      products: "KCL (5 sacs)",
-      total: 120000,
-      status: "delivered",
-      quotaOk: true,
-    },
-    {
-      id: "#CMD-005",
-      date: "2023-10-21 11:30",
-      beneficiary: { name: "Bob Builder", avatar: "BB", zone: "Zone 1" },
-      products: "NPK 17-17-17 (1 sac)",
-      total: 25000,
-      status: "closed",
-      quotaOk: true,
-    },
-  ];
-
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState({});
-  const [data, setData] = useState(initialOrders);
+  React.useEffect(() => {
+    const getCommandes = async () => {
+      try {
+        const response = await fetchData("get", `fertilisant/commandes/`, {
+          params: { limit: 1000, offset: 0 },
+        });
+        const results = response?.results;
+        const commanddata = results?.map((commande) => ({
+          id: commande?.id,
+          date: commande?.date_enregistrement,
+          beneficiary: {
+            name:
+              commande?.cultivator?.cultivator_last_name +
+              " " +
+              commande?.cultivator?.cultivator_first_name,
+            avatar: commande?.cultivator?.cultivator_photo,
+            zone: commande?.cultivator?.cultivator_adress?.zone_code?.zone_name,
+          },
+          products:
+            commande?.angrais_type + " (" + commande?.nombre_sacs + " sacs)",
+          total: commande?.avance_montant,
+          status: "closed",
+          quotaOk: true,
+        }));
+        setData(commanddata);
+      } catch (error) {
+        console.error("Error fetching Commandes data:", error);
+      }
+    };
+    getCommandes();
+  }, []);
+  const [data, setData] = useState([]);
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 10,
   });
-
   const getStatusBadge = (status) => {
     switch (status) {
       case "draft":
@@ -191,6 +171,7 @@ export function OrdersTable() {
       },
       cell: ({ row }) => {
         const { name, avatar, zone } = row.original.beneficiary;
+
         return (
           <div className="flex items-center gap-2">
             <ViewImageDialog imageUrl={avatar || null} alt={`${name}`} />
