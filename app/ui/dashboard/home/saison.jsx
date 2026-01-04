@@ -52,7 +52,7 @@ export default function Saison() {
           <ChevronsUpDown className="ml-6 h-4 w-4 text-muted-foreground" />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-52" align="start">
-          <DropdownMenuLabel>Workspaces</DropdownMenuLabel>
+          <DropdownMenuLabel>Saisons</DropdownMenuLabel>
           {workspaces.map((workspace) => (
             <DropdownMenuItem
               key={workspace.id}
