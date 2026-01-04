@@ -108,7 +108,6 @@ export default function Edit({
         additionalHeaders: {},
         body: formData,
       });
-      console.log(results);
       if (results.status == 200) {
         window.location.reload();
       } else {

@@ -45,7 +45,21 @@ export default function ListeCommandes() {
               </div>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Toutes les zones</SelectItem>
+              <SelectItem value="all">Province</SelectItem>
+              <SelectItem value="ngozi">Ngozi</SelectItem>
+              <SelectItem value="kayanza">Kayanza</SelectItem>
+              <SelectItem value="gitega">Gitega</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select defaultValue="all">
+            <SelectTrigger className="w-[180px] bg-background">
+              <div className="flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-muted-foreground" />
+                <SelectValue placeholder="Zone / Province" />
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Communes</SelectItem>
               <SelectItem value="ngozi">Ngozi</SelectItem>
               <SelectItem value="kayanza">Kayanza</SelectItem>
               <SelectItem value="gitega">Gitega</SelectItem>
@@ -56,10 +70,10 @@ export default function ListeCommandes() {
 
           {/* Global Actions */}
 
-          <Button className="gap-2">
+          {/* <Button className="gap-2">
             <PlusCircle className="h-4 w-4" />
             <span className="hidden sm:inline">Nouvelle Commande</span>
-          </Button>
+          </Button> */}
         </div>
       </div>
       {/* Filters and Search */}

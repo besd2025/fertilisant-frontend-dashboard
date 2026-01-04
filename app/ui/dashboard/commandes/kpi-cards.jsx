@@ -8,16 +8,50 @@ import {
   Wallet,
   Truck,
 } from "lucide-react";
-
+import { fetchData } from "@/app/_utils/api";
 export function OrdersKpiCards() {
-  // TODO: Fetch real data
-  const stats = {
-    total: 342,
-    conforme: 310,
-    anomalie: 32,
-    attentePaiement: 45,
-    attenteLivraison: 120,
-  };
+  const [stats, setStats] = React.useState();
+  const [commande_attente_livre, setCommandeAttenteLivre] = React.useState();
+  const [commande_livre, setCommandeLivre] = React.useState();
+  React.useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await fetchData(
+          "get",
+          "fertilisant/commandes/get_total_commandes/",
+          {
+            params: {},
+            additionalHeaders: {},
+            body: {},
+          }
+        );
+        const commande_attente_livre = await fetchData(
+          "get",
+          "fertilisant/receptions/get_commande_non_livre_or_no_paid/",
+          {
+            params: {},
+            additionalHeaders: {},
+            body: {},
+          }
+        );
+        const commande_livre = await fetchData(
+          "get",
+          "fertilisant/receptions/get_commande_paid_livre/",
+          {
+            params: {},
+            additionalHeaders: {},
+            body: {},
+          }
+        );
+        setStats(response);
+        setCommandeAttenteLivre(commande_attente_livre);
+        setCommandeLivre(commande_livre);
+      } catch (error) {
+        console.error("Error fetching orders stats:", error);
+      }
+    };
+    fetchStats();
+  }, []);
 
   return (
     <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-5">
@@ -29,7 +63,7 @@ export function OrdersKpiCards() {
               <ShoppingBag className="text-white" />
             </div>
             <CardTitle className="text-2xl font-semibold tracking-tight tabular-nums">
-              {stats.total}
+              {stats?.total_commandes}
             </CardTitle>
           </div>
           <CardTitle className="text-lg font-semibold tabular-nums">
@@ -40,27 +74,7 @@ export function OrdersKpiCards() {
           </CardTitle>
         </CardHeader>
       </Card>
-      {/* En Attente de Paiement */}
-      {/* <Card className="@container/card">
-        <CardHeader>
-          <div className="flex flex-row gap-x-2 items-center">
-            <div className="bg-yellow-500 p-2 rounded-md">
-              <Wallet className="text-white" />
-            </div>
-            <CardTitle className="text-2xl font-semibold tracking-tight tabular-nums">
-              {stats.attentePaiement}
-            </CardTitle>
-          </div>
-          <CardTitle className="text-lg font-semibold tabular-nums">
-            Attente Paiement
-            <div className="text-sm font-normal text-muted-foreground">
-              (Avance non reçue)
-            </div>
-          </CardTitle>
-        </CardHeader>
-      </Card> */}
 
-      {/* En Attente de Livraison */}
       <Card className="@container/card">
         <CardHeader>
           <div className="flex flex-row gap-x-2 items-center">
@@ -68,7 +82,7 @@ export function OrdersKpiCards() {
               <Truck className="text-white" />
             </div>
             <CardTitle className="text-2xl font-semibold tracking-tight tabular-nums">
-              {stats.attenteLivraison}
+              {commande_attente_livre?.nombre_sacs_non_livre}
             </CardTitle>
           </div>
           <CardTitle className="text-lg font-semibold tabular-nums">
@@ -87,52 +101,13 @@ export function OrdersKpiCards() {
               <Truck className="text-white" />
             </div>
             <CardTitle className="text-2xl font-semibold tracking-tight tabular-nums">
-              {stats.attenteLivraison}
+              {commande_livre?.nombre_sacs_livre}
             </CardTitle>
           </div>
           <CardTitle className="text-lg font-semibold tabular-nums">
             Livrées
             <div className="text-sm font-normal text-muted-foreground">
               (Cmds livrées)
-            </div>
-          </CardTitle>
-        </CardHeader>
-      </Card>
-      {/* Commandes Conformes (Quota OK) */}
-      <Card className="@container/card">
-        <CardHeader>
-          <div className="flex flex-row gap-x-2 items-center">
-            <div className="bg-green-500 p-2 rounded-md">
-              <CheckCircle2 className="text-white" />
-            </div>
-            <CardTitle className="text-2xl font-semibold tracking-tight tabular-nums">
-              {stats.conforme}
-            </CardTitle>
-          </div>
-          <CardTitle className="text-lg font-semibold tabular-nums">
-            Conformes
-            <div className="text-sm font-normal text-muted-foreground">
-              (Quota OK)
-            </div>
-          </CardTitle>
-        </CardHeader>
-      </Card>
-
-      {/* En Anomalie (Quota Exceeded) */}
-      <Card className="@container/card">
-        <CardHeader>
-          <div className="flex flex-row gap-x-2 items-center">
-            <div className="bg-red-500 p-2 rounded-md">
-              <AlertTriangle className="text-white" />
-            </div>
-            <CardTitle className="text-2xl font-semibold tracking-tight tabular-nums">
-              {stats.anomalie}
-            </CardTitle>
-          </div>
-          <CardTitle className="text-lg font-semibold tabular-nums">
-            En Anomalie
-            <div className="text-sm font-normal text-muted-foreground">
-              (Quota dépassé)
             </div>
           </CardTitle>
         </CardHeader>

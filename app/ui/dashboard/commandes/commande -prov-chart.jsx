@@ -1,5 +1,5 @@
 "use client";
-
+import React from "react";
 import { TrendingUp } from "lucide-react";
 import {
   Bar,
@@ -28,65 +28,7 @@ import {
 } from "@/components/ui/chart";
 
 export const description = "A bar chart with a custom label";
-
-const chartData = [
-  {
-    location: "KAYANZA",
-    commandes: 186,
-    TOTAHAZA: 8,
-    IMBURA: 120,
-    BAGARA: 20,
-    DOLOMIE: 10,
-  },
-  {
-    location: "GITEGA",
-    commandes: 305,
-    TOTAHAZA: 20,
-    IMBURA: 120,
-    BAGARA: 20,
-    DOLOMIE: 10,
-  },
-  {
-    location: "KARUSI",
-    commandes: 237,
-    TOTAHAZA: 120,
-    IMBURA: 120,
-    BAGARA: 20,
-    DOLOMIE: 10,
-  },
-  {
-    location: "MUYINGA",
-    commandes: 73,
-    TOTAHAZA: 190,
-    IMBURA: 120,
-    BAGARA: 20,
-    DOLOMIE: 10,
-  },
-  {
-    location: "MAKAMBA",
-    commandes: 209,
-    TOTAHAZA: 130,
-    IMBURA: 120,
-    BAGARA: 20,
-    DOLOMIE: 10,
-  },
-  {
-    location: "KIRUNDO",
-    commandes: 214,
-    TOTAHAZA: 140,
-    IMBURA: 120,
-    BAGARA: 20,
-    DOLOMIE: 10,
-  },
-  {
-    location: "MUYINGA",
-    commandes: 73,
-    TOTAHAZA: 190,
-    IMBURA: 120,
-    BAGARA: 20,
-    DOLOMIE: 10,
-  },
-];
+import { fetchData } from "@/app/_utils/api";
 
 const chartConfig = {
   commandes: {
@@ -115,6 +57,39 @@ const chartConfig = {
 };
 
 export function CommandeProv() {
+  const [data, setData] = React.useState([]);
+  React.useEffect(() => {
+    const getCommandes = async () => {
+      try {
+        const response = await fetchData(
+          "get",
+          `fertilisant/commandes/get_commande_par_provinces/`,
+          {
+            params: {},
+            additionalHeaders: {},
+            body: {},
+          }
+        );
+        const commanddata = response?.map((commande) => ({
+          location: commande?.province_name,
+          commandes:
+            commande?.totahaza +
+            commande?.imbura +
+            commande?.bagara +
+            commande?.dolomie,
+          TOTAHAZA: commande?.totahaza,
+          IMBURA: commande?.imbura,
+          BAGARA: commande?.bagara,
+          DOLOMIE: commande?.dolomie,
+        }));
+        setData(commanddata);
+      } catch (error) {
+        console.error("Error fetching Commandes data:", error);
+      }
+    };
+    getCommandes();
+  }, []);
+
   return (
     <Card>
       <CardHeader>
@@ -124,7 +99,7 @@ export function CommandeProv() {
         <ChartContainer config={chartConfig} className="aspect-auto h-[300px]">
           <BarChart
             accessibilityLayer
-            data={chartData}
+            data={data}
             margin={{
               top: 25,
             }}

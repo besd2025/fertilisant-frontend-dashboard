@@ -38,9 +38,64 @@ import {
 import PaginationControls from "@/components/ui/pagination-controls"; // Assuming generic component
 import ExportButton from "@/components/ui/export_button"; // Assuming generic component
 import ViewImageDialog from "@/components/ui/view-image-dialog";
+import Edit from "./edit";
+import Details from "./details";
+import Link from "next/link";
 // import Filter from "../filter"; // Keeping consistent with HangarsListTable but commenting out if not directly usable, can enable later
 import { fetchData } from "@/app/_utils/api";
 export function OrdersTable() {
+  // Dummy Data
+  const initialOrders = [
+    {
+      id: "#CMD-001",
+      date: "2023-10-25 14:30",
+      beneficiary: { name: "Jean Dupont", avatar: "JD", zone: "Zone 1" },
+      products: [
+        {
+          name: "TOTAHAZA",
+          quantity: 10,
+          price: 5000,
+        },
+        {
+          name: "IMBURA",
+          quantity: 10,
+          price: 5000,
+        },
+      ],
+      total: 50000,
+      status: "paid",
+    },
+    {
+      id: "#CMD-002",
+      date: "2023-10-24 09:15",
+      beneficiary: { name: "Marie Curie", avatar: "MC", zone: "Zone 2" },
+      products: [
+        {
+          name: "TOTAHAZA",
+          quantity: 10,
+          price: 5000,
+        },
+        {
+          name: "IMBURA",
+          quantity: 10,
+          price: 5000,
+        },
+        {
+          name: "TOTAHAZA",
+          quantity: 10,
+          price: 5000,
+        },
+        {
+          name: "IMBURA",
+          quantity: 10,
+          price: 5000,
+        },
+      ],
+      total: 75000,
+      status: "paid_advance",
+    },
+  ];
+
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
@@ -85,17 +140,17 @@ export function OrdersTable() {
     switch (status) {
       case "draft":
         return (
-          <span className="bg-gray-100/50 border border-gray-200 text-gray-800 text-xs px-2 py-1 rounded-full">
+          <span className="bg-primary-100/50 border border-primary-200 text-primary-800 text-xs px-2 py-1 rounded-full">
             Brouillon
           </span>
         );
       case "paid_advance":
         return (
-          <span className="bg-blue-100/50 border border-blue-200 text-blue-800 text-xs px-2 py-1 rounded-full">
+          <span className="bg-yellow-100/50 border border-yellow-200 text-yellow-800 text-xs px-2 py-1 rounded-full">
             Payé (Avance)
           </span>
         );
-      case "paid_balance":
+      case "paid":
         return (
           <span className="bg-indigo-100/50 border border-indigo-200 text-indigo-800 text-xs px-2 py-1 rounded-full">
             Payé (Totalité)
@@ -129,8 +184,14 @@ export function OrdersTable() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem>Voir détails</DropdownMenuItem>
-                <DropdownMenuItem>Modifier</DropdownMenuItem>
+
+                <div className="w-full">
+                  <Details order={row.original} />
+                </div>
+
+                <div className="w-full">
+                  <Edit order={row.original} />
+                </div>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -189,7 +250,21 @@ export function OrdersTable() {
     },
     {
       accessorKey: "products",
-      header: "Produits",
+      header: "Produits(sacs)",
+      cell: ({ row }) => {
+        const products = row.getValue("products");
+        if (!Array.isArray(products)) return null;
+        return (
+          <div className="flex flex-col gap-1">
+            {products.map((product, index) => (
+              <div key={index} className="text-sm">
+                <span className="font-medium">{product.name}</span>
+                <span className="text-xs ml-2">({product.quantity})</span>
+              </div>
+            ))}
+          </div>
+        );
+      },
     },
     {
       accessorKey: "total",
@@ -203,19 +278,6 @@ export function OrdersTable() {
       accessorKey: "status",
       header: "Statut",
       cell: ({ row }) => getStatusBadge(row.getValue("status")),
-    },
-    {
-      accessorKey: "quotaOk",
-      header: ({ column }) => <div className="text-center">Quota</div>,
-      cell: ({ row }) => (
-        <div className="flex justify-center">
-          {row.original.quotaOk ? (
-            <CheckCircle className="h-5 w-5 text-green-500" />
-          ) : (
-            <AlertTriangle className="h-5 w-5 text-red-500" />
-          )}
-        </div>
-      ),
     },
   ];
 
