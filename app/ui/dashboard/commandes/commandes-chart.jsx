@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
-
+import { fetchData } from "@/app/_utils/api";
 import {
   Card,
   CardContent,
@@ -81,6 +81,65 @@ const chartConfig = {
 };
 export function ChartLineAchats() {
   const [period, setPeriod] = useState("mois");
+  const [dataByPeriod, setDataByPeriod] = useState({
+    mois: [],
+    annee: [],
+  });
+
+  const handleTimePeriodChange = (value) => {
+    setPeriod(value);
+  };
+
+  React.useEffect(() => {
+    async function getData() {
+      try {
+        const periodParam =
+          period === "jour"
+            ? "day"
+            : period === "semaine"
+            ? "week"
+            : period === "annee"
+            ? "year"
+            : "month";
+
+        const results = await fetchData(
+          "get",
+          `/fertilisant/commandes/get_recent_total_7_angrais_per_period/?period=${periodParam}`,
+          {}
+        );
+
+        if (!Array.isArray(results)) return;
+
+        // 🔹 Transformation CORRECTE des données
+        const moisData = results.map((item) => ({
+          month: new Date(item.period).toLocaleString("en-US", {
+            month: "long",
+          }),
+          TOTAHAZA: item?.TOTAHAZA ?? 0,
+          IMBURA: item?.IMBURA ?? 0,
+          BAGARA: item?.BAGARA ?? 0,
+          DOLOMIE: item?.DOLOMIE ?? 0,
+        }));
+
+        const anneeData = results.map((item) => ({
+          year: item.period,
+          TOTAHAZA: item?.TOTAHAZA ?? 0,
+          IMBURA: item?.IMBURA ?? 0,
+          BAGARA: item?.BAGARA ?? 0,
+          DOLOMIE: item?.DOLOMIE ?? 0,
+        }));
+
+        setDataByPeriod({
+          mois: moisData,
+          annee: anneeData,
+        });
+      } catch (error) {
+        console.error("Erreur API :", error);
+      }
+    }
+
+    getData();
+  }, [period]);
 
   return (
     <Card>
@@ -90,8 +149,8 @@ export function ChartLineAchats() {
         <div className="flex flex-row items-center gap-2">
           <Tabs
             defaultValue="mois"
-            value={period}
-            onValueChange={setPeriod}
+            value={dataByPeriod[period]}
+            onValueChange={handleTimePeriodChange}
             className="w-full mt-4"
           >
             <TabsList className="grid w-max grid-cols-2">
@@ -107,7 +166,7 @@ export function ChartLineAchats() {
           </Tabs>
           <Select
             value={["A", "B"].includes(period) ? period : ""}
-            onValueChange={setPeriod}
+            onValueChange={handleTimePeriodChange}
           >
             <SelectTrigger className="">
               <SelectValue placeholder="Saison" />
@@ -115,8 +174,8 @@ export function ChartLineAchats() {
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Saison</SelectLabel>
-                <SelectItem value="A">A</SelectItem>
-                <SelectItem value="B">B</SelectItem>
+                {/* <SelectItem value="A">A</SelectItem>
+                <SelectItem value="B">B</SelectItem> */}
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -129,7 +188,7 @@ export function ChartLineAchats() {
         >
           <BarChart
             accessibilityLayer
-            data={charDataByPeriod[period]}
+            data={dataByPeriod[period]}
             margin={{
               top: 20,
             }}

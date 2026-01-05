@@ -51,20 +51,12 @@ export function HangarLocationChart() {
           }
         );
         const provinceData = response.map((item) => ({
-          name: item?.hangar_adress__zone_code__commune_code__province_code__province_name,
-          count: item?.count,
+          name: item?.province_name,
+          count: item?.count_hangars,
         }));
 
-        const regionData = [
-          { name: "Region X", count: 15 },
-          { name: "Region Y", count: 12 },
-          { name: "Region Z", count: 10 },
-          { name: "Region W", count: 8 },
-          { name: "Region V", count: 5 },
-        ];
         setData({
           province: provinceData,
-          region: regionData,
         });
       } catch (error) {
         console.error("Error fetching cultivators data:", error);
@@ -88,7 +80,6 @@ export function HangarLocationChart() {
         >
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="province">Province</TabsTrigger>
-            <TabsTrigger value="region">Région</TabsTrigger>
           </TabsList>
         </Tabs>
       </CardHeader>

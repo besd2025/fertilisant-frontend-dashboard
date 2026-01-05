@@ -36,72 +36,6 @@ const topFields = [
   { image: "/images/logo_5.jpg", name: "Bob Builder", value: 7, sub: "Champs" },
 ];
 
-const topTrees = [
-  {
-    image: "/images/logo_1.jpg",
-    name: "Jean Dupont",
-    value: 1500,
-    sub: "Pieds",
-  },
-  {
-    image: "/images/logo_2.jpg",
-    name: "Marie Curie",
-    value: 1200,
-    sub: "Pieds",
-  },
-  {
-    image: "/images/logo_3.jpg",
-    name: "Paul Martin",
-    value: 1150,
-    sub: "Pieds",
-  },
-  {
-    image: "/images/logo_4.jpg",
-    name: "Alice Wonderland",
-    value: 1000,
-    sub: "Pieds",
-  },
-  {
-    image: "/images/logo_5.jpg",
-    name: "Bob Builder",
-    value: 950,
-    sub: "Pieds",
-  },
-];
-
-const topQuantity = [
-  {
-    image: "/images/logo_1.jpg",
-    name: "Jean Dupont",
-    value: 5000,
-    sub: "Sacs",
-  },
-  {
-    image: "/images/logo_2.jpg",
-    name: "Marie Curie",
-    value: 4200,
-    sub: "Sacs",
-  },
-  {
-    image: "/images/logo_3.jpg",
-    name: "Paul Martin",
-    value: 3800,
-    sub: "Sacs",
-  },
-  {
-    image: "/images/logo_4.jpg",
-    name: "Alice Wonderland",
-    value: 3500,
-    sub: "Sacs",
-  },
-  {
-    image: "/images/logo_5.jpg",
-    name: "Bob Builder",
-    value: 3200,
-    sub: "Sacs",
-  },
-];
-
 function TopListCard({ title, icon, data }) {
   return (
     <Card>
@@ -180,11 +114,11 @@ export function TopFiveCards() {
   }, []);
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      <TopListCard
+      {/* <TopListCard
         title="Top 5 - Nombre de Champs"
         icon={<Sprout className="h-4 w-4" />}
         data={topFields}
-      />
+      /> */}
 
       <TopListCard
         title="Top 5 - Quantité commandée"

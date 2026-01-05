@@ -14,100 +14,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 
-const topQuantity = [
-  {
-    image: "/images/logo_1.jpg",
-    name: "HANGAR Alpha",
-    value: 50000,
-    sub: "Kg",
-  },
-  { image: "/images/logo_2.jpg", name: "HANGAR Beta", value: 42000, sub: "Kg" },
-  {
-    image: "/images/logo_3.jpg",
-    name: "HANGAR Gamma",
-    value: 38000,
-    sub: "Kg",
-  },
-  {
-    image: "/images/logo_4.jpg",
-    name: "HANGAR Delta",
-    value: 35000,
-    sub: "Kg",
-  },
-  {
-    image: "/images/logo_5.jpg",
-    name: "HANGAR Epsilon",
-    value: 32000,
-    sub: "Kg",
-  },
-];
-
-const topMembers = [
-  {
-    image: "/images/logo_1.jpg",
-    name: "HANGAR Alpha",
-    value: 150,
-    sub: "Membres",
-  },
-  {
-    image: "/images/logo_2.jpg",
-    name: "HANGAR Beta",
-    value: 120,
-    sub: "Membres",
-  },
-  {
-    image: "/images/logo_3.jpg",
-    name: "HANGAR Gamma",
-    value: 115,
-    sub: "Membres",
-  },
-  {
-    image: "/images/logo_4.jpg",
-    name: "HANGAR Delta",
-    value: 100,
-    sub: "Membres",
-  },
-  {
-    image: "/images/logo_5.jpg",
-    name: "HANGAR Epsilon",
-    value: 95,
-    sub: "Membres",
-  },
-];
-
-const topCapacity = [
-  {
-    image: "/images/logo_1.jpg",
-    name: "HANGAR Alpha",
-    value: 100,
-    sub: "Tonnes",
-  },
-  {
-    image: "/images/logo_2.jpg",
-    name: "HANGAR Beta",
-    value: 80,
-    sub: "Tonnes",
-  },
-  {
-    image: "/images/logo_3.jpg",
-    name: "HANGAR Gamma",
-    value: 75,
-    sub: "Tonnes",
-  },
-  {
-    image: "/images/logo_4.jpg",
-    name: "HANGAR Delta",
-    value: 60,
-    sub: "Tonnes",
-  },
-  {
-    image: "/images/logo_5.jpg",
-    name: "HANGAR Epsilon",
-    value: 50,
-    sub: "Tonnes",
-  },
-];
-
 function TopListCard({ title, icon, data }) {
   return (
     <Card>
@@ -214,11 +120,6 @@ export function HangarTopFiveCards() {
         title="Top 5 - Nombre de Membres"
         icon={<Users className="h-4 w-4" />}
         data={datatopMembers}
-      />
-      <TopListCard
-        title="Top 5 - Capacité Stockage"
-        icon={<Warehouse className="h-4 w-4" />}
-        data={topCapacity}
       />
     </div>
   );

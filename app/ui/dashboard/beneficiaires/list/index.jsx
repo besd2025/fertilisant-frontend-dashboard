@@ -169,15 +169,6 @@ export default function CultivatorsListTable({ data, isCultivatorsPage }) {
         );
       },
     },
-    {
-      accessorKey: "champs",
-      header: "Champs",
-      cell: ({ row }) => (
-        <div className="text-center font-semibold">
-          {row.getValue("champs")}
-        </div>
-      ),
-    },
   ];
 
   const table = useReactTable({

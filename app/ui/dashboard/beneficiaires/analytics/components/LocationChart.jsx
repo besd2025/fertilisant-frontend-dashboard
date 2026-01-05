@@ -23,21 +23,6 @@ import {
   LabelList,
 } from "recharts";
 import { fetchData } from "@/app/_utils/api";
-const locationData = {
-  province: [
-    { name: "Province A", count: 850 },
-    { name: "Province B", count: 620 },
-    { name: "Province C", count: 480 },
-    { name: "Province D", count: 280 },
-  ],
-  region: [
-    { name: "Region X", count: 320 },
-    { name: "Region Y", count: 290 },
-    { name: "Region Z", count: 240 },
-    { name: "Region W", count: 210 },
-    { name: "Region V", count: 180 },
-  ],
-};
 
 const locationConfig = {
   count: {
@@ -50,7 +35,6 @@ export function LocationChart() {
   const [locFilter, setLocFilter] = useState("province");
   const [data, setData] = useState({
     province: [],
-    region: [],
   });
 
   React.useEffect(() => {
@@ -68,19 +52,12 @@ export function LocationChart() {
         );
 
         const provinceData = response.map((item) => ({
-          name: item?.cultivator_adress__zone_code__commune_code__province_code__province_name,
-          count: item?.count,
+          name: item?.province_name,
+          count: item?.count_cultivators,
         }));
-        const regionData = [
-          { name: "Region X", count: 15 },
-          { name: "Region Y", count: 12 },
-          { name: "Region Z", count: 10 },
-          { name: "Region W", count: 8 },
-          { name: "Region V", count: 5 },
-        ];
+
         setData({
           province: provinceData,
-          region: regionData,
         });
       } catch (error) {
         console.error("Error fetching cultivators data:", error);
@@ -103,7 +80,6 @@ export function LocationChart() {
         >
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="province">Province</TabsTrigger>
-            <TabsTrigger value="region">Région</TabsTrigger>
           </TabsList>
         </Tabs>
       </CardHeader>

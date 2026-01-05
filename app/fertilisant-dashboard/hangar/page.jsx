@@ -19,9 +19,7 @@ function page() {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="list">
-          <h1 className="text-2xl font-semibold m-2">
-            Liste des Station de Lavage
-          </h1>
+          <h1 className="text-2xl font-semibold m-2">Liste des Hangars</h1>
           <HangarsListTable />
         </TabsContent>
         <TabsContent value="details">

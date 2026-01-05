@@ -147,10 +147,7 @@ export function AppSidebar({ ...props }) {
             >
               {menuItems.navMain.map((item) => {
                 const active = isActive(item.keyword);
-                // Support both component references (Icon) and already-instantiated
-                // React elements (e.g. an inline <svg />). If item.icon is a
-                // React element, clone it to inject className. If it's a
-                // component/function, render it normally.
+
                 return (
                   <SidebarMenuItem key={item.title}>
                     <Link href={item.url} className="flex items-center gap-3">

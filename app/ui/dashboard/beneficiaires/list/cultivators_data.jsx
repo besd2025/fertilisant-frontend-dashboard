@@ -38,7 +38,6 @@ function CultivatorData() {
               cultivator?.cultivator_adress?.zone_code?.commune_code
                 ?.commune_name,
           },
-          champs: 4,
         }));
 
         setData(cultivatorsData);

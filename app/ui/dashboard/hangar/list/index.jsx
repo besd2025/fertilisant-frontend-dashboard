@@ -53,21 +53,22 @@ export default function HangarsListTable() {
   useEffect(() => {
     const getHangars = async () => {
       try {
-        const response = await fetchData("get", "cafe/stationslavage/", {});
+        const response = await fetchData("get", "fertilisant/hangars/", {
+          body: { limit: 100, offset: 0 },
+        });
         const results = response?.results;
-        console.log("HANGARs fetched:", results);
         const hangarData = results.map((hangar) => ({
           id: hangar?.id,
           hangar: {
             hangar_code: hangar?.hangar_code,
-            hangar_name: hangar?.hangar_nom,
+            hangar_name: hangar?.hangar_name,
             type: "",
           },
-          society: hangar?.societe?.nom_societe || "",
+
           responsable: {
-            first_name: hangar?.hangar_responsable?.user?.first_name || "",
-            last_name: hangar?.hangar_responsable?.user?.last_name || "",
-            telephone: hangar?.hangar_responsable?.user?.phone || "",
+            first_name: hangar?.responsable?.user?.first_name || "",
+            last_name: hangar?.responsable?.user?.last_name || "",
+            telephone: hangar?.responsable?.user?.phone || "",
           },
           localite: {
             province:
@@ -183,23 +184,7 @@ export default function HangarsListTable() {
         );
       },
     },
-    {
-      accessorKey: "society",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Société
-            <ArrowUpDownIcon />
-          </Button>
-        );
-      },
-      cell: ({ row }) => (
-        <div className="font-medium">{row.getValue("society")}</div>
-      ),
-    },
+
     {
       id: "localite",
       header: "Localité",
